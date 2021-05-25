@@ -22,12 +22,6 @@ def dir_last_updated(folder):
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     form = InquiryForm()
-    appetizers = Food.query.filter_by(category='appetizers').all()
-    salads = Food.query.filter_by(category='salads').all()
-    entrees = Food.query.filter_by(category='entrees').all()
-    wraps = Food.query.filter_by(category='wraps').all()
-    sides = Food.query.filter_by(category='sides').all()
-    desserts = Food.query.filter_by(category='desserts').all()
     if form.validate_on_submit():
         user = User(first_name=form.first_name.data, email=form.email.data, phone=form.phone.data)
         message = form.message.data
@@ -37,8 +31,7 @@ def index():
         print(app.config['ADMINS'])
         flash("Thank you for your message. We will be in touch!")
         return redirect(url_for('index', _anchor="home"))
-    return render_template('index.html', form=form, a=appetizers, sal=salads, e=entrees, \
-        w=wraps, sid=sides, d=desserts, last_updated=dir_last_updated('app/static'))
+    return render_template('index.html', form=form, last_updated=dir_last_updated('app/static'))
 
 @app.route('/about')
 def about():
