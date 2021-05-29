@@ -59,8 +59,8 @@
   {% include "_sticky-header.html" %}
   {% include "_menu-content.html" %}
 
-  <div id="2" class="home-section">
-
+  <div id="2" class="home-section d-flex">
+    <img class="m-auto" src="{{ url_for('static', filename='img/fibonacci.svg') }}">
   </div>
 
   <div id="contact" class="home-section">
@@ -81,6 +81,7 @@
         </form>
       </div>
     </div>
+    {{ super() }}
   </div>
 
   {% block end_scripts %}

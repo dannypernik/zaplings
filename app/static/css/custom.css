@@ -5878,7 +5878,8 @@ a:before {
   position: relative;
   display: block;
   margin: 3rem auto;
-  max-width: 244px;
+  width: 100%;
+  max-width: 333px;
 }
 
 #home-title {

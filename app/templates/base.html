@@ -99,8 +99,7 @@
       {% include "_menu-content.html" %}
     {% endblock navbar %}
 
-    {% block content %}{% endblock content %}
-
+    {% block content %}
     {% block footer %}
       <footer class="footer">
         <div class="row justify-content-center">
@@ -125,6 +124,7 @@
         </div>
       </footer>
     {% endblock footer %}
+    {% endblock content %}
 
     {% block end_scripts %}{% endblock end_scripts %}
   </body>
