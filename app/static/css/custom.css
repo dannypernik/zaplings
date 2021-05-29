@@ -5644,7 +5644,7 @@ progress {
 
 body {
   font-family: "Montserrat", "Helvetica", sans-serif;
-  color: #2e225e;
+  color: #1F4188;
   font-size: 1.6rem;
 }
 
@@ -5698,14 +5698,14 @@ input, textarea {
 }
 
 input:focus, textarea:focus {
-  border-bottom: 1px solid #2e225e;
+  border-bottom: 1px solid #1F4188;
 }
 
 input[type=submit] {
   margin-top: 1.5rem;
-  background-color: #2e225e;
+  background-color: #1F4188;
   color: white;
-  border: 2px solid #2e225e;
+  border: 2px solid #1F4188;
   font-size: 1.9rem;
   transition: 0.3s;
 }
@@ -5713,7 +5713,7 @@ input[type=submit] {
 a {
   display: inline-block;
   text-decoration: none;
-  color: #2e225e;
+  color: #1F4188;
 }
 
 a:hover h2, a:hover .h2, .header-item:hover a {
@@ -5731,8 +5731,8 @@ a:before {
 .btn {
   margin: 2rem auto;
   padding: 1rem 2rem;
-  background-color: #2e225e;
-  border: 2px solid #2e225e;
+  background-color: #1F4188;
+  border: 2px solid #1F4188;
   color: white;
   transition: 0.3s;
   font-size: 1.7rem;
@@ -5753,21 +5753,21 @@ a:before {
 }
 
 .btn.sec {
-  color: #2e225e;
-  border-color: #2e225e;
+  color: #1F4188;
+  border-color: #1F4188;
   background-color: transparent;
   padding: 0.5rem 2rem;
 }
 
 .btn:hover, .menu-link:hover {
-  background-color: #403083;
-  border-color: #403083;
+  background-color: #6FC06B;
+  border-color: #6FC06B;
   color: white;
 }
 
 .btn.clr:hover {
   background-color: transparent;
-  border-color: #b11e25;
+  border-color: #6FC06B;
   color: white;
 }
 
@@ -5810,7 +5810,7 @@ a:before {
 
 .footer {
   padding: 20px;
-  background-color: #2e225e;
+  background-color: #1F4188;
   color: white;
   margin-top: 15rem;
 }
@@ -5850,7 +5850,7 @@ a:before {
 .menu-link {
   height: 80px;
   border-bottom: 1px solid #ddd;
-  color: #2e225e;
+  color: #1F4188;
   transition: 0.3s;
 }
 
@@ -5863,33 +5863,22 @@ a:before {
   position: fixed;
   left: 0;
   width: 100%;
-  background-color: #2e225e;
-  border: 1px solid #2e225e;
+  background-color: #1F4188;
+  border: 1px solid #1F4188;
   z-index: 5;
 }
 
 #home {
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(../img/coals-xl.jpg) center center no-repeat;
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../img/bark.jpg) center center no-repeat;
   background-attachment: fixed;
   background-size: cover;
 }
 
-@media screen and (max-width: 1200px) {
-  #home {
-    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(../img/coals-lg.jpg) center center no-repeat;
-  }
-}
-@media screen and (max-width: 575px) {
-  #home {
-    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(../img/coals.jpg);
-    background-attachment: scroll;
-  }
-}
 #home-logo {
   position: relative;
   display: block;
   margin: 3rem auto;
-  max-height: calc(272px + 3vw);
+  max-width: 244px;
 }
 
 #home-title {
@@ -5943,7 +5932,7 @@ a:before {
 }
 
 .home-section a:hover {
-  color: #b11e25;
+  color: #6FC06B;
 }
 
 .home-section.inverse {
@@ -5963,8 +5952,8 @@ a:before {
   position: sticky;
   top: 0;
   border: none;
-  border-bottom: 1px solid #2e225e;
-  background-color: #2e225e;
+  border-bottom: 1px solid #1F4188;
+  background-color: #1F4188;
   z-index: 100;
 }
 
@@ -5976,7 +5965,7 @@ a:before {
   color: white;
 }
 
-#hs-icon {
+#header-img {
   height: 5rem;
   align-self: center;
   margin: auto;
@@ -5999,7 +5988,7 @@ a:before {
 
 .food-name, .food-price {
   font-weight: 600;
-  color: #b11e25;
+  color: #6FC06B;
   text-transform: uppercase;
 }
 
@@ -6032,7 +6021,7 @@ a:before {
   top: auto;
   bottom: 11px;
   left: 5px;
-  color: #2e225e;
+  color: #1F4188;
   text-align: center;
   width: 20px;
 }
@@ -6043,7 +6032,7 @@ a:before {
 }
 
 .glider-prev:focus, .glider-next:focus, .glider-next:hover, .glider-prev:hover {
-  color: #b11e25;
+  color: #6FC06B;
 }
 
 .home-next {
@@ -6067,7 +6056,7 @@ a:before {
 .usp-icon {
   width: 7rem;
   height: 7rem;
-  fill: #b11e25;
+  fill: #6FC06B;
   margin-bottom: 2rem;
 }
 

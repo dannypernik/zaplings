@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900px" height="900px" viewBox="0 0 900 900" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>Oval + Group Mask</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="450" cy="450" r="450"></circle>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Oval-+-Group-Mask">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Mask" fill="#1F4188" xlink:href="#path-1"></use>
+            <circle id="Oval" fill="#1F4188" mask="url(#mask-2)" cx="450" cy="450" r="450"></circle>
+            <g id="Group" mask="url(#mask-2)" fill="#5FD561">
+                <g transform="translate(36.000000, 326.000000)">
+                    <path d="M460,226.866402 C460,209.804028 473.200263,196 489.493529,196 C505.82562,196 519,209.804028 519,226.866402 L519,584 L460,584 L460,226.866402 Z" id="Fill-12"></path>
+                    <path d="M472.943209,345 C472.943209,345 442.249563,289.715041 416.473756,276.19713 C416.473756,276.19713 81.0586505,340.093987 0,15.6641242 C0,15.6641242 261.265162,-89.9997809 449.606545,247.539159 C449.606545,247.539159 293.198157,91.8655774 126.123463,62.363561 C126.123463,62.363561 383.327782,178.723101 475,314.706691 L472.943209,345 Z" id="Fill-13"></path>
+                    <path d="M555,298.45233 C555,298.45233 557.449265,43.5476697 828.646125,35 C828.646125,35 849.504383,287.419261 570.94656,307 C570.94656,307 649.49423,170.98685 743.962124,98.6998646 C743.962124,98.6998646 638.433032,144.028815 555,298.45233" id="Fill-14"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

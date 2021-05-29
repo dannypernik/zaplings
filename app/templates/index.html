@@ -29,24 +29,24 @@
       <div class="col-10">
         <div class="row justify-content-center justify-content-md-end">
           <div class="home-nav col col-md-7 col-lg-6 col-xl-5">
-            <div><a href="#food" data-text="menu">menu</a></div>
-            <div><a href="#" data-text="order">order</a></div>
-            <div><a href="#contact" data-text="contact">contact</a></div>
+            <div><a href="#" data-text="learn">learn</a></div>
+            <div><a href="#" data-text="create">create</a></div>
+            <div><a href="#contact" data-text="connect">connect</a></div>
           </div>
         </div>
       </div>
     </nav>
 
     <div class="row justify-content-center">
-      <div class="col-11">
+      <div class="col-10">
         <img id="home-logo" class="img-fluid"
-          src="{{ url_for('static', filename='img/logo.svg') }}" alt="HOTSWORDS">
+          src="{{ url_for('static', filename='img/logo-tagline.svg') }}" alt="Zaplings">
       </div>
     </div>
     <div class="home-next row">
-      <a href="#food">
+      <a href="#2">
         <h2>
-          LET'S EAT
+
         </h2>
         <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi
             bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -56,336 +56,15 @@
     </div>
   </div>
 
-
+  {% include "_sticky-header.html" %}
   {% include "_menu-content.html" %}
 
-  <div id="food" class="home-section">
-    <div class="sticky-header row justify-content-center">
-      <div class="d-none d-md-flex col-md-2 p-2">
-        <img id="hs-icon" class="img-fluid"
-          src="{{ url_for('static', filename='img/icon.svg') }}" >
-      </div>
-      <div id="food-header" class="col-9 col-md-7">
-        <div class="header-item">
-          <a href="#appetizers" data-text="appetizers">appetizers</a>
-        </div>&bull;
-        <div class="header-item">
-          <a href="#salads" data-text="salads">salads</a>
-        </div>&bull;
-        <div class="header-item">
-          <a href="#entrees" data-text="entrees">entrees</a>
-        </div>&bull;
-        <div class="header-item">
-          <a href="#wraps" data-text="wraps">wraps</a>
-        </div>&bull;
-        <div class="header-item">
-          <a href="#sides" data-text="sides">sides</a>
-        </div>&bull;
-        <div class="last header-item">
-          <a href="#desserts" data-text="desserts">desserts</a>
-        </div>
-      </div>
-      <div class="d-flex col-3 col-md-2">
-        <a class="btn clr sm m-auto" href="#">ORDER</a>
-      </div>
-    </div>
+  <div id="2" class="home-section">
 
-    <div class="row justify-content-center">
-      <div class="col-11 col-sm-10">
-        <h1 id="appetizers" class="category-title">APPETIZERS</h1>
-        <div class="row">
-          <div class="col-md-6 order-2">
-            {% for food in a %}
-              <div class="row mb-2">
-                <div class="food-name col-9">
-                  {{ food.name }}
-                </div>
-                <div class="food-price col-3 text-end">
-                  ${{ food.price }}
-                </div>
-                <div class="food-info col">
-                  {{ food.description }}
-                </div>
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="col-md-5 offset-md-1 order-1 order-md-3">
-            <div class="glider-contain">
-              <div class="glider">
-                <div>
-                  <img src="{{ url_for('static', filename='img/hummus.jpg') }}">
-                  <p class="my-2">Hummus</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/baba-ganoush.jpg') }}">
-                  <p class="my-2">Baba Ganoush</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/tzatziki.jpg') }}">
-                  <p class="my-2">Tzatziki</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/falafel.jpg') }}">
-                  <p class="my-2">Falafel</p>
-                </div>
-              </div>
-
-              <div aria-label="Previous" class="glider-prev">‹</div>
-              <div aria-label="Next" class="glider-next">›</div>
-              <div role="tablist" class="dots"></div>
-            </div>
-          </div>
-        </div>
-
-        <h1 id="salads" class="category-title">SALADS</h1>
-        <div class="row">
-          <div class="col-md-6 order-2">
-            {% for food in sal %}
-              <div class="row mb-2">
-                <div class="food-name col-9">
-                  {{ food.name }}
-                </div>
-                <div class="food-price col-3 text-end">
-                  ${{ food.price }}
-                </div>
-                <div class="food-info col">
-                  {{ food.description }}
-                </div>
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="col-md-5 offset-md-1 order-1 order-md-3">
-            <div class="glider-contain">
-              <div class="glider">
-                <div>
-                  <img src="{{ url_for('static', filename='img/hummus.jpg') }}">
-                  <p class="my-2">Hummus</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/baba-ganoush.jpg') }}">
-                  <p class="my-2">Baba Ganoush</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/tzatziki.jpg') }}">
-                  <p class="my-2">Tzatziki</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/falafel.jpg') }}">
-                  <p class="my-2">Falafel</p>
-                </div>
-              </div>
-
-              <div aria-label="Previous" class="glider-prev">‹</div>
-              <div aria-label="Next" class="glider-next">›</div>
-              <div role="tablist" class="dots"></div>
-            </div>
-          </div>
-        </div>
-
-        <h1 id="entrees" class="category-title">ENTREES</h1>
-        <div class="row">
-          <div class="col-md-6 order-2">
-            {% for food in e %}
-              <div class="row mb-2">
-                <div class="food-name col-9">
-                  {{ food.name }}
-                </div>
-                <div class="food-price col-3 text-end">
-                  ${{ food.price }}
-                </div>
-                <div class="food-info col">
-                  {{ food.description }}
-                </div>
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="col-md-5 offset-md-1 order-1 order-md-3">
-            <div class="glider-contain">
-              <div class="glider">
-                <div>
-                  <img src="{{ url_for('static', filename='img/hummus.jpg') }}">
-                  <p class="my-2">Hummus</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/baba-ganoush.jpg') }}">
-                  <p class="my-2">Baba Ganoush</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/tzatziki.jpg') }}">
-                  <p class="my-2">Tzatziki</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/falafel.jpg') }}">
-                  <p class="my-2">Falafel</p>
-                </div>
-              </div>
-
-              <div aria-label="Previous" class="glider-prev">‹</div>
-              <div aria-label="Next" class="glider-next">›</div>
-              <div role="tablist" class="dots"></div>
-            </div>
-          </div>
-        </div>
-
-        <h1 id="wraps" class="category-title">WRAPS</h1>
-        <div class="row">
-          <div class="col-md-6 order-2">
-            {% for food in w %}
-              <div class="row mb-2">
-                <div class="food-name col-9">
-                  {{ food.name }}
-                </div>
-                <div class="food-price col-3 text-end">
-                  ${{ food.price }}
-                </div>
-                <div class="food-info col">
-                  {{ food.description }}
-                </div>
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="col-md-5 offset-md-1 order-1 order-md-3">
-            <div class="glider-contain">
-              <div class="glider">
-                <div>
-                  <img src="{{ url_for('static', filename='img/hummus.jpg') }}">
-                  <p class="my-2">Hummus</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/baba-ganoush.jpg') }}">
-                  <p class="my-2">Baba Ganoush</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/tzatziki.jpg') }}">
-                  <p class="my-2">Tzatziki</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/falafel.jpg') }}">
-                  <p class="my-2">Falafel</p>
-                </div>
-              </div>
-
-              <div aria-label="Previous" class="glider-prev">‹</div>
-              <div aria-label="Next" class="glider-next">›</div>
-              <div role="tablist" class="dots"></div>
-            </div>
-          </div>
-        </div>
-
-        <h1 id="sides" class="category-title">SIDES</h1>
-        <div class="row">
-          <div class="col-md-6 order-2">
-            {% for food in sid %}
-              <div class="row mb-2">
-                <div class="food-name col-9">
-                  {{ food.name }}
-                </div>
-                <div class="food-price col-3 text-end">
-                  ${{ food.price }}
-                </div>
-                <div class="food-info col">
-                  {{ food.description }}
-                </div>
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="col-md-5 offset-md-1 order-1 order-md-3">
-            <div class="glider-contain">
-              <div class="glider">
-                <div>
-                  <img src="{{ url_for('static', filename='img/hummus.jpg') }}">
-                  <p class="my-2">Hummus</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/baba-ganoush.jpg') }}">
-                  <p class="my-2">Baba Ganoush</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/tzatziki.jpg') }}">
-                  <p class="my-2">Tzatziki</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/falafel.jpg') }}">
-                  <p class="my-2">Falafel</p>
-                </div>
-              </div>
-
-              <div aria-label="Previous" class="glider-prev">‹</div>
-              <div aria-label="Next" class="glider-next">›</div>
-              <div role="tablist" class="dots"></div>
-            </div>
-          </div>
-        </div>
-
-        <h1 id="desserts" class="category-title">DESSERTS</h1>
-        <div class="row">
-          <div class="col-md-6 order-2">
-            {% for food in d %}
-              <div class="row mb-2">
-                <div class="food-name col-9">
-                  {{ food.name }}
-                </div>
-                <div class="food-price col-3 text-end">
-                  ${{ food.price }}
-                </div>
-                <div class="food-info col">
-                  {{ food.description }}
-                </div>
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="col-md-5 offset-md-1 order-1 order-md-3">
-            <div class="glider-contain">
-              <div class="glider">
-                <div>
-                  <img src="{{ url_for('static', filename='img/hummus.jpg') }}">
-                  <p class="my-2">Hummus</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/baba-ganoush.jpg') }}">
-                  <p class="my-2">Baba Ganoush</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/tzatziki.jpg') }}">
-                  <p class="my-2">Tzatziki</p>
-                </div>
-                <div>
-                  <img src="{{ url_for('static', filename='img/falafel.jpg') }}">
-                  <p class="my-2">Falafel</p>
-                </div>
-              </div>
-
-              <div aria-label="Previous" class="glider-prev">‹</div>
-              <div aria-label="Next" class="glider-next">›</div>
-              <div role="tablist" class="dots"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="home-next row">
-          <a href="#contact">
-            <h2>
-              CONTACT
-            </h2>
-            <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi
-                bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-            </svg>
-          </a>
-        </div>
-
-      </div>
-    </div>
   </div>
 
   <div id="contact" class="home-section">
-    {% include "_sticky-header.html" %}
+
 
     <div class="row mt-5 justify-content-center">
       <div class="col-11 col-md-8">
@@ -398,7 +77,7 @@
           <p class="mb-3">{{ form.phone }}</p>
           <p class="mb-3">{{ form.subject }}</p>
           <p class="mb-3">{{ form.message(rows='4') }}</p>
-          <input type="submit" />
+          <input class="btn" type="submit" />
         </form>
       </div>
     </div>
