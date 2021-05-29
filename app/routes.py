@@ -19,6 +19,7 @@ def dir_last_updated(folder):
                    for root_path, dirs, files in os.walk(folder)
                    for f in files))
 
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     form = InquiryForm()
@@ -37,7 +38,6 @@ def index():
 def about():
     return render_template('about.html')
 
-@app.route('/')
 @app.route('/draft')
 def draft():
     return render_template('draft.html')
