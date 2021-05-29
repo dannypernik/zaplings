@@ -267,6 +267,8 @@ a:before {
   background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../img/bark.jpg) center center no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  min-height: calc(100vh + 3px);
+  overflow: auto;
 }
 
 // Med-Large backgrounds //
@@ -347,11 +349,11 @@ a:before {
   color: $secondary-color;
 }
 
-.home-section.inverse {
+.inverse {
   color: white;
 }
 
-.home-section.inverse a {
+.inverse a {
   color: white;
 }
 
@@ -498,4 +500,9 @@ a:before {
 .review-img {
   width: 100px;
   margin-bottom: 2rem;
+}
+
+.anchor {
+  margin-top: -110px;
+  padding-top: 160px;
 }

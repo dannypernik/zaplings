@@ -13,7 +13,7 @@
 {% block navbar %}{% endblock navbar %}
 
 {% block content %}
-  <div id="home" class="home-section inverse text-center">
+  <div id="home" class="inverse text-center">
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         {% for message in messages %}
@@ -59,8 +59,17 @@
   {% include "_sticky-header.html" %}
   {% include "_menu-content.html" %}
 
-  <div id="2" class="home-section d-flex">
-    <img class="m-auto" src="{{ url_for('static', filename='img/fibonacci.svg') }}">
+  <div id="2" class="home-section anchor">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="mb-4">What do you want to create?</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 d-flex align-items-center">
+        <img class="m-auto img-fluid" src="{{ url_for('static', filename='img/fibonacci.svg') }}">
+      </div>
+    </div>
   </div>
 
   <div id="contact" class="home-section">
