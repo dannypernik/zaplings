@@ -5723,6 +5723,7 @@ a:hover h2, a:hover .h2, .header-item:hover a {
 a:before {
   display: block;
   content: attr(data-text);
+  font-weight: 600;
   height: 0;
   overflow: hidden;
   visibility: hidden;
