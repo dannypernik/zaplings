@@ -23,9 +23,17 @@
       {% endif %}
     {% endwith %}
 
+    <div class="row justify-content-center mt-4 text-end">
+      <div class="col-11 col-md-10">
+        <a href="{{ url_for('login') }}" >
+          Log in
+        </a>
+      </div>
+    </div>
+
     <div class="row justify-content-center">
       <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-        <img class="img-fluid my-5 px-2" src="{{ url_for('static', filename='img/logo-tagline.svg') }}">
+        <img class="img-fluid my-4 px-2" src="{{ url_for('static', filename='img/logo-tagline.svg') }}">
       </div>
     </div>
     <form id="intro-form" method="post">
@@ -35,8 +43,9 @@
         </div>
 
         <div class="col-12 col-sm-8 col-md-6">
-          {{ form2.hidden_tag() }}
-          {{ form2.description(class="text-center mb-2") }}
+          {{ form.hidden_tag() }}
+          {{ form.description(class="text-center mb-2") }}
+          <p class="small-text mb-1"><i>Ideas are private until you are ready to share.</i></p>
           <a id="idea-start-button" class="btn inline-block mx-1">Let's grow this</a>
         </div>
       </div>
@@ -50,13 +59,13 @@
         <div class="col-12 col-sm-8 col-md-6">
           <div class="row">
             <div class="col-12 col-md-6">
-              {{ form2.first_name }}
+              {{ form.first_name }}
             </div>
             <div class="col-12 col-md-6">
-              {{ form2.last_name}}
+              {{ form.last_name}}
             </div>
             <div class="col-12">
-              {{ form2.email(class="mb-2") }}
+              {{ form.email(class="mb-2") }}
             </div>
           </div>
 
@@ -89,7 +98,7 @@
         </div>
         <div class="col-3">
           <a id="menu-btn" data-drawer-trigger aria-controls="site-menu" aria-expanded="false">
-            <div id="menu-title" class="d-none d-sm-block">Menu</div>
+            <div class="small-text d-none d-sm-block">Menu</div>
             <img id="menu-icon" src="{{ url_for('static', filename='img/menu.svg') }}" alt="">
           </a>
         </div>
@@ -117,7 +126,7 @@
             <p>About</p>
           </div>
         </a>
-        <a href="#contact" data-drawer-close>
+        <a href="{{ url_for('contact') }}" data-drawer-close>
           <div class="menu-link">
             <p>Contact</p>
           </div>
@@ -144,6 +153,8 @@
         <h4>Header 4</h4>
         <h5>Header 5</h5>
         <h6>Header 6</h6>
+        <p class="lead">lead text</p>
+        <p>paragraph</p>
         <div class="home-next">
           <a href="#benefits">
             <h2>
@@ -174,26 +185,6 @@
             </svg>
           </a>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="contact" class="home-section end">
-    <div class="row justify-content-center">
-      <div class="col-11 col-md-8">
-        <h1 class="page-title">
-          Get in touch
-        </h1>
-        <form id="inquiry-form" action="" method="post">
-          {{ form.hidden_tag() }}
-          <p class="mb-3">{{ form.first_name }}</p>
-          <p class="mb-3">{{ form.email }}</p>
-          <p class="mb-3">{{ form.phone }}</p>
-          <p class="mb-3">{{ form.subject(class='d-none') }}</p>
-          <p class="mb-3">{{ form.message(rows='4') }}</p>
-          {{ hcaptcha }}
-          {{ form.submit }}
-        </form>
       </div>
     </div>
   </div>

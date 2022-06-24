@@ -154,7 +154,12 @@ strong {
 }
 
 small, .small {
-  font-size: 0.875em;
+  font-size: calc(1.275rem + 0.3vw);
+}
+@media (min-width: 1200px) {
+  small, .small {
+    font-size: 1.5rem;
+  }
 }
 
 mark, .mark {
@@ -206,7 +211,12 @@ pre {
   margin-top: 0;
   margin-bottom: 1rem;
   overflow: auto;
-  font-size: 0.875em;
+  font-size: calc(1.275rem + 0.3vw);
+}
+@media (min-width: 1200px) {
+  pre {
+    font-size: 1.5rem;
+  }
 }
 pre code {
   font-size: inherit;
@@ -215,9 +225,14 @@ pre code {
 }
 
 code {
-  font-size: 0.875em;
+  font-size: calc(1.275rem + 0.3vw);
   color: #d63384;
   word-wrap: break-word;
+}
+@media (min-width: 1200px) {
+  code {
+    font-size: 1.5rem;
+  }
 }
 a > code {
   color: inherit;
@@ -225,10 +240,15 @@ a > code {
 
 kbd {
   padding: 0.2rem 0.4rem;
-  font-size: 0.875em;
+  font-size: calc(1.275rem + 0.3vw);
   color: #fff;
   background-color: #212529;
   border-radius: 0.2rem;
+}
+@media (min-width: 1200px) {
+  kbd {
+    font-size: 1.5rem;
+  }
 }
 kbd kbd {
   padding: 0;
@@ -5034,7 +5054,7 @@ progress {
   }
 }
 .lead {
-  font-size: calc(2rem + 0.1vw);
+  font-size: calc(min(1.75rem + 0.25vw, 2.2rem));
   font-weight: inherit;
 }
 
@@ -5122,8 +5142,13 @@ progress {
 }
 
 .initialism {
-  font-size: 0.875em;
+  font-size: calc(1.275rem + 0.3vw);
   text-transform: uppercase;
+}
+@media (min-width: 1200px) {
+  .initialism {
+    font-size: 1.5rem;
+  }
 }
 
 .blockquote {
@@ -5137,8 +5162,13 @@ progress {
 .blockquote-footer {
   margin-top: -2rem;
   margin-bottom: 2rem;
-  font-size: 0.875em;
+  font-size: calc(1.275rem + 0.3vw);
   color: #6c757d;
+}
+@media (min-width: 1200px) {
+  .blockquote-footer {
+    font-size: 1.5rem;
+  }
 }
 .blockquote-footer::before {
   content: "— ";
@@ -5978,7 +6008,7 @@ body {
   height: 100%;
   font-family: "Montserrat", "Helvetica", sans-serif;
   color: #2a4776;
-  font-size: calc(2rem + 0.1vw);
+  font-size: 1.8rem;
   display: flex;
   flex-direction: column;
   -ms-overflow-style: none;
@@ -5999,7 +6029,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
 }
 
 h1, .h1 {
-  font-size: calc(min(3rem + 1vw, 44px));
+  font-size: calc(min(2.75rem + 1vw, 44px));
   margin-bottom: 2rem;
 }
 
@@ -6038,7 +6068,7 @@ h6, .h6 {
 }
 
 input, textarea {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   line-height: 2.5rem;
   margin-top: 1rem;
   padding: 1rem;
@@ -6163,6 +6193,10 @@ select {
   padding: 0.5rem 1rem;
 }
 
+.small-text {
+  font-size: 1.5rem;
+}
+
 .semibold {
   font-weight: 600;
 }
@@ -6207,7 +6241,7 @@ button, .btn {
   border-radius: 99px;
   color: white;
   transition: 0.3s;
-  font-size: 1.7rem;
+  font-size: 1.8rem;
 }
 
 a.btn {
@@ -6266,7 +6300,8 @@ button:hover, .btn:hover, input[type=submit]:hover, .menu-link:hover {
 }
 
 .drawer__close:hover {
-  background-color: white;
+  background-color: transparent;
+  outline: none;
 }
 
 .img-fluid {
@@ -6283,15 +6318,20 @@ div.alert {
   text-align: center;
   font-size: 1.5rem;
   margin-bottom: 0;
-  color: #004085;
-  background-color: #cce5ff;
-  border-color: #b8daff;
+  color: #275759;
+  background-color: #cfeecf;
+  border-color: #cfeecf;
 }
 
 .alert.error {
   color: #850017;
   background-color: #ffd4db;
   border-color: #ffd4db;
+}
+
+.form-error {
+  color: #850017;
+  font-size: 1.5rem;
 }
 
 .alert a {
@@ -6327,10 +6367,6 @@ div.alert {
   max-width: 100%;
 }
 
-#menu-title {
-  padding-top: 2px;
-}
-
 #menu-btn {
   display: flex;
   justify-content: flex-end;
@@ -6352,10 +6388,15 @@ div.alert {
   display: inline;
 }
 
+.drawer__wrapper {
+  background-color: #2a4776;
+}
+
 .menu-link {
   height: 60px;
-  border-bottom: 1px solid #ddd;
-  color: #2a4776;
+  font-size: 1.5rem;
+  border-bottom: 1px solid white;
+  color: white;
   transition: 0.3s;
 }
 
@@ -6493,7 +6534,7 @@ div.alert {
 
 .btn.cta {
   margin-top: calc(2rem + 1vw);
-  font-size: calc(2rem + 0.1vw);
+  font-size: 1.8rem;
 }
 
 .inverse {

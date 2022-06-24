@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>My ideas</h2>
+  {% for i in ideas %}
+    <p>{{ i.name }}</p>
+  {% endfor %}
+{% endblock content %}

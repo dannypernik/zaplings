@@ -90,7 +90,7 @@ def send_confirmation_email(user, message):
         print("Confirmation email failed to send with code " + result.status_code, result.reason)
 
 
-def send_password_reset_email(user):
+def send_password_email(user, type='new'):
     token = user.get_reset_password_token()
     api_key = app.config['MAILJET_KEY']
     api_secret = app.config['MAILJET_SECRET']
@@ -111,9 +111,9 @@ def send_password_reset_email(user):
                 "Subject": "Reset your password",
                 "ReplyTo": { "Email": user.email },
                 "TextPart": render_template('email/reset-password.txt',
-                                         user=user, token=token),
+                                         user=user, token=token, type=type),
                 "HTMLPart": render_template('email/reset-password.html',
-                                         user=user, token=token)
+                                         user=user, token=token, type=type)
             }
         ]
     }

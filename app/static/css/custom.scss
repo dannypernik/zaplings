@@ -1,5 +1,7 @@
 $font-size-root: 10px;
-$lead-font-size: calc(2rem + 0.1vw);
+$base-font-size: 1.8rem;
+$lead-font-size: calc(min(1.75rem + 0.25vw, 2.2rem));
+$small-font-size: 1.5rem;
 $lead-font-weight: inherit;
 $spacer: 2rem;
 $enable-smooth-scroll: false;
@@ -27,7 +29,7 @@ body {
   height: 100%;
   font-family: $body-font;
   color: $primary-color;
-  font-size: $lead-font-size;
+  font-size: $base-font-size;
   display: flex;
   flex-direction:  column;
   -ms-overflow-style: none;
@@ -48,7 +50,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: calc(min(3rem + 1vw, 44px));
+  font-size: calc(min(2.75rem + 1vw, 44px));
   margin-bottom: 2rem;
 }
 
@@ -87,7 +89,7 @@ h6 {
 }
 
 input, textarea {
-  font-size: 1.6rem;
+  font-size: $base-font-size;
   line-height: 2.5rem;
   margin-top: 1rem;
   padding: 1rem;
@@ -228,6 +230,10 @@ select {
   padding: 0.5rem 1rem;
 }
 
+.small-text {
+  font-size: $small-font-size;
+}
+
 .semibold {
   font-weight: 600;
 }
@@ -272,7 +278,7 @@ button, .btn {
   border-radius: 99px;
   color: white;
   transition: 0.3s;
-  font-size: 1.7rem;
+  font-size: $base-font-size;
 }
 
 a.btn {
@@ -331,7 +337,8 @@ button:hover, .btn:hover, input[type="submit"]:hover, .menu-link:hover {
 }
 
 .drawer__close:hover {
-  background-color: white;
+  background-color: transparent;
+  outline: none;
 }
 
 .img-fluid {
@@ -346,17 +353,22 @@ button:hover, .btn:hover, input[type="submit"]:hover, .menu-link:hover {
 div.alert {
   padding: 0.5rem 0;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: $small-font-size;
   margin-bottom: 0;
-  color: #004085;
-  background-color: #cce5ff;
-  border-color: #b8daff;
+  color: #275759;
+  background-color: #cfeecf;
+  border-color: #cfeecf;
 }
 
 .alert.error {
   color: #850017;
   background-color: #ffd4db;
   border-color: #ffd4db;
+}
+
+.form-error {
+  color: #850017;
+  font-size: $small-font-size;
 }
 
 .alert a {
@@ -394,10 +406,6 @@ div.alert {
   max-width: 100%;
 }
 
-#menu-title {
-  padding-top: 2px;
-}
-
 #menu-btn {
   display: flex;
   justify-content: flex-end;
@@ -419,10 +427,15 @@ div.alert {
   display: inline;
 }
 
+.drawer__wrapper {
+  background-color: $primary-color;
+}
+
 .menu-link {
   height: 60px;
-  border-bottom: 1px solid #ddd;
-  color: $primary-color;
+  font-size: $small-font-size;
+  border-bottom: 1px solid white;
+  color: white;
   transition: 0.3s;
 }
 
@@ -573,7 +586,7 @@ div.alert {
 
 .btn.cta {
   margin-top: calc(2rem + 1vw);
-  font-size: $lead-font-size;
+  font-size: $base-font-size;
 }
 
 .inverse {

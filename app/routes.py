@@ -7,7 +7,7 @@ from flask_login import current_user, login_user, logout_user, login_required, l
 from app.models import User, Idea
 from werkzeug.urls import url_parse
 from datetime import datetime
-from app.email import send_contact_email, send_password_reset_email, \
+from app.email import send_contact_email, send_password_email, \
     send_test_strategies_email, send_score_analysis_email, send_practice_test_email
 from functools import wraps
 
@@ -38,25 +38,33 @@ def admin_required(f):
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    form2 = IntroForm()
-    form = InquiryForm()
-    if form2.validate_on_submit():
+    form = IntroForm()
+    if current_user.is_authenticated:
+        return redirect(url_for('home', id=current_user.get_id()))
+    if form.validate_on_submit():
         username_check = User.query.filter_by(username=form.email.data).first()
-        print(username_check)
         if username_check is not None:
             if username_check.password_hash is None:
+                send_password_email(username_check)
                 flash('You need to verify your email before saving more ideas. Please check your inbox.', 'error')
-                return redirect(url_for('login', email=form2.email.data))
-            flash('An account already exists for ' + form2.email.data + '. Please log in.', 'error')
-            return redirect(url_for('login', email=form2.email.data, idea=form2.description.data))
-        user = User(first_name=form2.first_name.data, last_name=form2.last_name.data, \
-            email=form2.email.data, username=form2.email.data)
+                return redirect(url_for('login', email=form.email.data))
+            flash('An account already exists for ' + form.email.data + '. Please log in.', 'error')
+            return redirect(url_for('login', email=form.email.data, idea=form.description.data))
+        user = User(first_name=form.first_name.data, last_name=form.last_name.data, \
+            email=form.email.data, username=form.email.data)
         db.session.add(user)
-        db.session.commit()
-        idea = Idea(description=form2.description.data, creator_id=user.id)
+        db.session.flush()
+        idea = Idea(description=form.description.data, creator_id=user.id)
         db.session.add(idea)
         db.session.commit()
+        send_password_email(user)
+        flash('Welcome to Zaplings! Please check your inbox at ' + user.email + ' to finish setting up your account.')
         return redirect(url_for('idea', id=idea.id))
+    return render_template('index.html', form=form, last_updated=dir_last_updated('app/static'))
+
+@app.route('/contact')
+def contact():
+    form = InquiryForm()
     if form.validate_on_submit():
         if hcaptcha.verify():
             pass
@@ -68,15 +76,23 @@ def index():
         subject = form.subject.data
         send_contact_email(user, message, subject)
         flash('Please check ' + user.email + ' for a confirmation email. Thank you for reaching out!')
-        return redirect(url_for('index', _anchor="home"))
-    return render_template('index.html', form=form, form2=form2, last_updated=dir_last_updated('app/static'))
-
+        return redirect(url_for('contact'))
+    return render_template('contact.html', form=form)
 
 @app.route('/about')
 def about():
     return render_template('about.html', title="About")
 
-@app.route('/idea/<int:id>')
+
+@app.route('/home/<int:id>')
+@login_required
+def home(id):
+    ideas = Idea.query.filter_by(creator_id=id)
+    print(ideas)
+    return render_template('home.html', title="Home", ideas=ideas)
+
+
+@app.route('/idea/<int:id>', methods=['GET', 'POST'])
 def idea(id):
     form = IdeaForm()
     idea = Idea.query.get_or_404(id)
@@ -88,10 +104,11 @@ def idea(id):
             db.session.add(idea)
             db.session.commit()
             flash(idea.name + ' updated')
+            return redirect(url_for('home'))
         except:
             db.session.rollback()
-            flash(user.first_name + ' could not be updated', 'error')
-            return redirect(url_for('users'))
+            flash(idea.name + ' could not be updated', 'error')
+        return redirect(url_for('home'))
     elif request.method == 'GET':
         form.name.data = idea.name
         form.tagline.data = idea.tagline
@@ -112,10 +129,11 @@ def signup():
             return redirect(url_for('login', email=form.email.data))
         user = User(first_name=form.first_name.data, last_name=form.last_name.data, \
         email=form.email.data)
-        user.set_password(form.password.data)
+        #user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash("You are now registered. We're glad you're here!")
+        send_password_email(user)
+        flash('Welcome to Zaplings! Please check your inbox at ' + user.email + ' to finish setting up your account.')
         return redirect(url_for('index'))
     return render_template('signup.html', title='Sign up', form=form)
 
@@ -126,21 +144,29 @@ def login():
         flash('You are already signed in')
         return redirect(url_for('index'))
     form = LoginForm()
-    if 'email' in request.args:
+    if request.method == 'GET' and 'email' in request.args:
         form.email.data = request.args.get('email')
     if form.validate_on_submit():
-        idea = None
+        user = User.query.filter_by(email=form.email.data).first()
         if 'idea' in request.args:
             idea = request.args.get('idea')
-        user = User.query.filter_by(email=form.email.data).first()
+        else:
+            idea = ''
+        if user and user.password_hash is None:
+            send_password_email(user)
+            flash('Please check your inbox at ' + user.email + ' to finish setting up your account.', 'error')
+            return redirect(url_for('login', email=user.email, idea=idea))
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password', 'error')
             return redirect(url_for('login', idea=idea))
         login_user(user, remember=form.remember_me.data)
         next = request.args.get('next')
         if not next or url_parse(next).netloc != '':
-            next = url_for('dashboard', idea=idea)
-        return redirect(next, idea=idea)
+            if idea != '':
+                next = url_for('idea', idea=idea, id=user.id)
+            else:
+                next = url_for('home', id=user.id)
+        return redirect(next)
     return render_template('login.html', title="Login", form=form)
 
 
@@ -150,14 +176,14 @@ def request_password_reset():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
-            send_password_reset_email(user)
+            send_password_email(user, 'reset')
         flash('Check your email for instructions to reset your password.')
         return redirect(url_for('login'))
     return render_template('request-password-reset.html', title='Reset password', form=form)
 
 
-@app.route('/reset_password/<token>', methods=['GET', 'POST'])
-def reset_password(token):
+@app.route('/set_password/<token>', methods=['GET', 'POST'])
+def set_password(token):
     user = User.verify_reset_password_token(token)
     if not user:
         return redirect(url_for('index'))
@@ -165,9 +191,10 @@ def reset_password(token):
     if form.validate_on_submit():
         user.set_password(form.password.data)
         db.session.commit()
-        flash('Your password has been reset.')
-        return redirect(url_for('login'))
-    return render_template('reset-password.html', form=form)
+        login_user(user)
+        flash('Your password has been updated successfully.')
+        return redirect(url_for('home', id=user.id))
+    return render_template('set-password.html', form=form)
 
 
 @app.route('/logout')

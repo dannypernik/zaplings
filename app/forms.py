@@ -28,6 +28,7 @@ class InquiryForm(FlaskForm):
         validators=[InputRequired()])
     submit = SubmitField('Submit')
 
+
 class IdeaForm(FlaskForm):
     name = StringField('Idea name', render_kw={'placeholder': 'Idea name'}, \
         validators=[InputRequired()])
@@ -45,11 +46,11 @@ class SignupForm(FlaskForm):
         validators=[InputRequired()])
     last_name = StringField('Last name', render_kw={'placeholder': 'Last name'}, \
         validators=[InputRequired()])
-    password = PasswordField('Password', render_kw={'placeholder': 'Password'}, \
-        validators=[InputRequired()])
-    password2 = PasswordField('Repeat Password', render_kw={'placeholder': 'Repeat Password'}, \
-        validators=[InputRequired(), EqualTo('password',message='Passwords do not match.')])
-    submit = SubmitField('Join the movement')
+    #password = PasswordField('Password', render_kw={'placeholder': 'Password'}, \
+    #     validators=[InputRequired()])
+    # password2 = PasswordField('Repeat Password', render_kw={'placeholder': 'Repeat Password'}, \
+    #     validators=[InputRequired(), EqualTo('password',message='Passwords do not match.')])
+    submit = SubmitField('Create')
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
