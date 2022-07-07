@@ -2,7 +2,8 @@ import os
 from flask import Flask, render_template, flash, Markup, redirect, url_for, \
     request, send_from_directory, send_file
 from app import app, db, login, hcaptcha
-from app.forms import IntroForm, InquiryForm, IdeaForm, SignupForm, LoginForm, UserForm, RequestPasswordResetForm, ResetPasswordForm
+from app.forms import SignupForm, LoginForm, IntroForm, InquiryForm, IdeaForm, \
+    LovesForm, OffersForm, NeedsForm, UserForm, RequestPasswordResetForm, ResetPasswordForm
 from flask_login import current_user, login_user, logout_user, login_required, login_url
 from app.models import User, Idea
 from werkzeug.urls import url_parse
@@ -84,15 +85,15 @@ def about():
     return render_template('about.html', title="About")
 
 
-@app.route('/home/<int:id>')
+@app.route('/home')
 @login_required
-def home(id):
-    ideas = Idea.query.filter_by(creator_id=id)
-    print(ideas)
+def home():
+    ideas = Idea.query.filter_by(creator_id=current_user.get_id())
     return render_template('home.html', title="Home", ideas=ideas)
 
 
 @app.route('/idea/<int:id>', methods=['GET', 'POST'])
+@login_required
 def idea(id):
     form = IdeaForm()
     idea = Idea.query.get_or_404(id)
@@ -114,6 +115,39 @@ def idea(id):
         form.tagline.data = idea.tagline
         form.description.data = idea.description
     return render_template('idea.html', form=form)
+
+
+@app.route('/loves', methods=['GET', 'POST'])
+@login_required
+def loves():
+    form = LovesForm()
+    if form.validate_on_submit():
+        current_user.loves = form.loves.data
+    elif request.method == 'GET':
+        form.loves.data = current_user.loves
+    return render_template('loves.html', form=form)
+
+
+@app.route('/offers', methods=['GET', 'POST'])
+@login_required
+def offers():
+    form = OffersForm()
+    if form.validate_on_submit():
+        current_user.offers = form.offers.data
+    elif request.method == 'GET':
+        form.offers.data = current_user.offers
+    return render_template('offers.html', form=form)
+
+
+@app.route('/needs', methods=['GET', 'POST'])
+@login_required
+def needs():
+    form = NeedsForm()
+    if form.validate_on_submit():
+        current_user.needs = form.needs.data
+    elif request.method == 'GET':
+        form.needs.data = current_user.needs
+    return render_template('needs.html', form=form)
 
 
 @app.route('/signup', methods=['GET', 'POST'])

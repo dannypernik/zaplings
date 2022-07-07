@@ -6034,23 +6034,23 @@ h1, .h1 {
 }
 
 h2, .h2 {
-  font-size: calc(min(2.5rem + 1vw, 40px));
+  font-size: calc(min(2.5rem + 1vw, 38px));
 }
 
 h3, .h3 {
-  font-size: calc(min(2.25rem + 1vw, 37px));
+  font-size: calc(min(2.25rem + 1vw, 32px));
 }
 
 h4, .h4 {
-  font-size: calc(min(2rem + 1vw, 34px));
+  font-size: calc(min(2rem + 1vw, 28px));
 }
 
 h5, .h5 {
-  font-size: calc(min(1.75rem + 1vw, 31px));
+  font-size: calc(min(1.75rem + 1vw, 24px));
 }
 
 h6, .h6 {
-  font-size: calc(min(1.5rem + 1vw, 28px));
+  font-size: calc(min(1.5rem + 1vw, 20px));
 }
 
 ::placeholder {
@@ -6080,17 +6080,19 @@ input, textarea {
   outline: none;
 }
 
-#home textarea, #home input {
+.inverse input, .inverse textarea {
   color: white;
   border-bottom: 2px solid white;
 }
 
-#home input[type=submit], input[type=submit] {
+input[type=submit] {
   margin-top: 1.5rem;
+  padding: 1rem 2rem;
   width: auto;
   background-color: #30b732;
   color: white;
   border: 2px solid #30b732;
+  border-radius: 99px;
   transition: 0.3s;
 }
 
@@ -6237,7 +6239,7 @@ button, .btn {
   margin: 2rem auto;
   padding: 1rem 2rem;
   background-color: #30b732;
-  border: 2px solid #30b732;
+  border: 1px solid #30b732;
   border-radius: 99px;
   color: white;
   transition: 0.3s;
@@ -6252,9 +6254,8 @@ a.btn {
   color: white;
 }
 
-button.clr {
-  background-color: transparent;
-  border-color: white;
+.btn.sm {
+  padding: 0.5rem 2rem;
 }
 
 .btn.sec {
@@ -6262,13 +6263,18 @@ button.clr {
   border-color: #2a4776;
   background-color: transparent;
   margin: 0;
-  padding: 0.5rem 2rem;
 }
 
-.btn.grey {
-  background-color: white;
+.inverse .btn.sec {
+  background-color: transparent;
   border-color: white;
-  color: #2a4776;
+  color: white;
+}
+
+.inverse .btn.sec:hover {
+  background-color: #66a1ef;
+  border-color: #66a1ef;
+  color: white;
 }
 
 .btn.edit {
@@ -6294,8 +6300,8 @@ button.clr {
 }
 
 button:hover, .btn:hover, input[type=submit]:hover, .menu-link:hover {
-  background-color: #2ba32c;
-  border-color: #2ba32c;
+  background-color: #258f27;
+  border-color: #258f27;
   color: white;
 }
 

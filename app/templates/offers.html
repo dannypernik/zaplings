@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3>How can you help others create?</h3>
+  <form method="post" >
+    {{ form.hidden_tag() }}
+    {{ form.offers }}
+    {{ form.submit }}
+  </form>
+{% endblock content %}
