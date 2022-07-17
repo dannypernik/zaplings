@@ -21,6 +21,7 @@ class User(UserMixin, db.Model):
     offers = db.Column(db.String(1024))
     needs = db.Column(db.String(1024))
     my_ideas = db.relationship('Idea', backref='creator', lazy='dynamic')
+    is_verified = db.Column(db.Boolean)
 
     def __repr__(self):
         return '<User {}>'.format(self.email)
@@ -31,13 +32,18 @@ class User(UserMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def get_email_verification_token(self, expires_in=3600):
+        return jwt.encode(
+            {'reset_password': self.id, 'exp': time() + expires_in},
+            app.config['SECRET_KEY'], algorithm='HS256')
+    
     def get_reset_password_token(self, expires_in=600):
         return jwt.encode(
             {'reset_password': self.id, 'exp': time() + expires_in},
             app.config['SECRET_KEY'], algorithm='HS256')
 
     @staticmethod
-    def verify_reset_password_token(token):
+    def verify_email_token(token):
         try:
             id = jwt.decode(token, app.config['SECRET_KEY'],
                             algorithms=['HS256'])['reset_password']

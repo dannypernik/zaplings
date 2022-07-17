@@ -8,7 +8,10 @@ $enable-smooth-scroll: false;
 $primary-color: #2a4776;
 $secondary-color: #30b732;
 $hover-color: darken($secondary-color, 10%);
+$grey: #999;
 $body-font: 'Montserrat', 'Helvetica', sans-serif;
+$nav-img-height: calc(min(36px + 2vw, 52px));
+$nav-img-margin: 20px 0 10px;
 
 @import "../scss/bootstrap-reboot.scss";
 @import "bootstrap/bootstrap-grid.min.css";
@@ -74,11 +77,46 @@ h6 {
   font-size:calc(min(1.5rem + 1vw, 20px));
 }
 
+.tagify__tag + .tagify__input::before {
+  display:none;
+}
+
+.tagify__input{ min-width: 100px; }
+
+.tagify__tag>div::before {
+  border: 1px solid $secondary-color;
+  box-shadow: none;
+  border-radius: 7px;
+}
+
+.tagify__tag__removeBtn:hover+div>span {
+  opacity: 1;
+}
+
+.tagify {
+  --tag-text-color: white;
+  --tags-border-color: none;
+  --tag-text-color--edit: white;
+  --tag-remove-btn-color: white;
+  --tag-text-color--edit: white;
+  --tags-hover-border-color: white;
+  --tags-focus-border-color: white;
+  --tag-hover: none;
+  --tag-remove-bg: transparent;
+  --placeholder-color: rgb(255,255,255,0.5);
+  --placeholder-color-focus: white;
+  --tag-remove-btn-bg--hover: #{$grey};
+  height: 11rem;
+  margin-top: 3rem;
+  border-bottom: 2px solid white;
+  border-radius: 7px;
+}
+
 ::placeholder {
   color: $primary-color;
 }
 
-#home ::placeholder {
+.inverse ::placeholder {
   color: white;
   opacity: 0.5;
 }
@@ -107,14 +145,15 @@ input, textarea {
 }
 
 input[type="submit"] {
-  margin-top: 1.5rem;
+  display: block;
+  margin: 1.5rem auto;
   padding: 1rem 2rem;
   width: auto;
   background-color: $secondary-color;
   color: white;
   border: 2px solid $secondary-color;
   border-radius: 99px;
-  transition: 0.3s;
+  transition: 0.5s;
 }
 
 input[type='checkbox'] {
@@ -279,7 +318,7 @@ button, .btn {
   border: 1px solid $secondary-color;
   border-radius: 99px;
   color: white;
-  transition: 0.3s;
+  transition: 0.5s;
   font-size: $base-font-size;
 }
 
@@ -320,6 +359,10 @@ a.btn {
   padding: 0.25rem 2rem;
 }
 
+.btn:disabled, .btn.disabled, fieldset:disabled .btn {
+  opacity: 1;
+}
+
 .row:hover > div > .btn.edit {
   display: inline-block;
 }
@@ -352,21 +395,27 @@ button:hover, .btn:hover, input[type="submit"]:hover, .menu-link:hover {
   height: auto;
 }
 
-#home-alert {
-  width: 100%;
+.flash-div {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: fit-content;
 }
 
-div.alert {
-  padding: 0.5rem 0;
+.flash {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
   text-align: center;
   font-size: $small-font-size;
   margin-bottom: 0;
   color: #275759;
   background-color: #cfeecf;
   border-color: #cfeecf;
+  transition: 0.5s;
 }
 
-.alert.error {
+.flash.error {
   color: #850017;
   background-color: #ffd4db;
   border-color: #ffd4db;
@@ -377,17 +426,13 @@ div.alert {
   font-size: $small-font-size;
 }
 
-.alert a {
+.flash a {
   text-decoration: underline;
   white-space: nowrap;
 }
 
-.section-margin {
-  padding-top: calc(2rem + 3vw);
-}
-
-.content {
-  flex: 1 0 auto;
+.pt-resp {
+  padding-top: calc(2rem + 1vw);
 }
 
 #contact {
@@ -406,16 +451,16 @@ div.alert {
 
 // Nav //
 
-#nav-img {
-  height: 36px;
-  margin: 12px 0;
+#nav-logo {
+  height: $nav-img-height;
+  margin: $nav-img-margin;
   max-width: 100%;
 }
 
 #menu-btn {
   display: flex;
   justify-content: flex-end;
-  margin: 17px 0 17px auto;
+  margin-top: 36px;
   color: white;
   text-decoration: none;
 }
@@ -442,7 +487,7 @@ div.alert {
   font-size: $small-font-size;
   border-bottom: 1px solid white;
   color: white;
-  transition: 0.3s;
+  transition: 0.5s;
 }
 
 .menu-link p {
@@ -450,17 +495,16 @@ div.alert {
 }
 
 .site-nav {
-  height: 60px;
   position: fixed;
   left: 0;
   width: 100%;
   background-color: $primary-color;
-  border: 1px solid $primary-color;
   z-index: 5;
 }
 
 .nav-gap {
-  height: 60px;
+  height: $nav-img-height;
+  margin: $nav-img-margin;
   width: 100%;
 }
 
@@ -483,7 +527,7 @@ div.alert {
 // #home photo by Ekaterina Bolovtsova on Pexels
 // https://www.pexels.com/@ekaterina-bolovtsova
 
-#home {
+.inverse {
   //background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/student-xl.webp) center top no-repeat;
   background-color: $primary-color;
   background-attachment: fixed;
@@ -538,8 +582,9 @@ div.alert {
   font-weight: 400;
 }
 
-.home-tagline {
+.headline-text {
   font-weight: 700;
+  margin-top: 2rem;
 }
 
 .grecaptcha-badge {

@@ -1,8 +1,8 @@
-"""init user, idea tables
+"""init tables
 
-Revision ID: 809f423deba9
+Revision ID: 8e9997136c5c
 Revises: 
-Create Date: 2022-06-18 10:40:12.740500
+Create Date: 2022-07-13 01:16:19.930676
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '809f423deba9'
+revision = '8e9997136c5c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -32,6 +32,7 @@ def upgrade():
     sa.Column('loves', sa.String(length=1024), nullable=True),
     sa.Column('offers', sa.String(length=1024), nullable=True),
     sa.Column('needs', sa.String(length=1024), nullable=True),
+    sa.Column('is_verified', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     with op.batch_alter_table('user', schema=None) as batch_op:

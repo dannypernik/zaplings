@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block body_class %}inverse{% endblock body_class %}
+
+{% block styles %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/tagify.css') }}">
+  {{ super() }}
+{% endblock styles %}
+
+{% block container %}
+  <div class="row justify-content-center pt-resp">
+    <div class="col-11 col-sm-10 col-md-8 col-lg-6">
+
+      {% block content %}{% endblock content %}
+
+    </div>
+  </div>  
+{% endblock container %}
+
+{% block footer %}{% endblock footer %}
+
+{% block end_scripts %}
+  {{ super() }}
+
+  <script src="{{ url_for('static', filename='js/tagify.min.js') }}"></script>
+  <script>
+    function tagLife(e) {
+      var inputElm = document.getElementById(e),
+      tagify = new Tagify (inputElm, {
+      originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
+    });
+    }
+  </script>
+{% endblock end_scripts %}

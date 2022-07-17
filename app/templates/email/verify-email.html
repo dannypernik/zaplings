@@ -1,23 +1,24 @@
-<p>Hi {{ user.first_name }},</p>
+<p>Hi {{ user.first_name }}, we're glad to have you with us!</p>
 <p>
-    You can reset your password by clicking below.
+  Please verify that you registered an account with Zaplings by clicking below:
 </p>
 <p>
-  <a href="{{ url_for('set_password', token=token, _external=True) }}"
+  <a href="{{ url_for('verify_email', token=token, _external=True) }}"
     style="background-color: #2ba32c; font-size: 18px; font-family: Helvetica, Arial, sans-serif;
       font-weight: bold; text-decoration: none; padding: 10px 15px; color: #ffffff;
       display: inline-block; mso-padding-alt: 0;">
     <!--[if mso]>
     <i style="letter-spacing: 25px; mso-font-width: -100%; mso-text-raise: 30pt;">&nbsp;</i>
     <![endif]-->
-    <span style="mso-text-raise: 15pt;">Update password</span>
+    <span style="mso-text-raise: 15pt;">Verify email</span>
     <!--[if mso]>
     <i style="letter-spacing: 25px; mso-font-width: -100%;">&nbsp;</i>
     <![endif]-->
   </a>
 </p>
 <p>
-  If you did not request a password reset, you can ignore this message.
+  If you did not register an account, please let us know at
+  <a href="{{ url_for('contact', _external=True) }}">zaplings.com/contact</a>.
 </p>
 <p>Our best,<br>
 The Zaplings Team</p>

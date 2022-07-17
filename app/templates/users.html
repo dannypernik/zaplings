@@ -61,6 +61,7 @@
 {% endblock content %}
 
 {% block end_scripts %}
+  {{ super() }}
   <script>
     const slideDown = element => element.style.height = `${element.scrollHeight}px`;
     const slideUp = element => element.style.height = '0px';

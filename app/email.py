@@ -49,7 +49,7 @@ def send_contact_email(user, message, subject):
 
     result = mailjet.send.create(data=data)
 
-    if result.status_code is 200:
+    if result.status_code == 200:
         send_confirmation_email(user, message)
         print("Confirmation email sent to " + user.email)
     else:
@@ -84,14 +84,49 @@ def send_confirmation_email(user, message):
     }
 
     result = mailjet.send.create(data=data)
-    if result.status_code is 200:
+    if result.status_code == 200:
         print(result.json())
     else:
         print("Confirmation email failed to send with code " + result.status_code, result.reason)
 
 
-def send_password_email(user, type='new'):
-    token = user.get_reset_password_token()
+def send_verification_email(user):
+    token = user.get_email_verification_token()
+    api_key = app.config['MAILJET_KEY']
+    api_secret = app.config['MAILJET_SECRET']
+    mailjet = Client(auth=(api_key, api_secret), version='v3.1')
+
+    data = {
+        'Messages': [
+            {
+                "From": {
+                    "Email": app.config['MAIL_USERNAME'],
+                    "Name": "Open Path Tutoring"
+                },
+                "To": [
+                    {
+                    "Email": user.email
+                    }
+                ],
+                "Subject": "Verify your email address",
+                "ReplyTo": { "Email": user.email },
+                "TextPart": render_template('email/verify-email.txt',
+                                         user=user, token=token),
+                "HTMLPart": render_template('email/verify-email.html',
+                                         user=user, token=token)
+            }
+        ]
+    }
+
+    result = mailjet.send.create(data=data)
+    if result.status_code == 200:
+        print(result.json())
+    else:
+        print("Verification email failed to send with code " + str(result.status_code), result.reason)
+
+
+def send_password_reset_email(user):
+    token = user.get_email_verification_token()
     api_key = app.config['MAILJET_KEY']
     api_secret = app.config['MAILJET_SECRET']
     mailjet = Client(auth=(api_key, api_secret), version='v3.1')
@@ -111,15 +146,15 @@ def send_password_email(user, type='new'):
                 "Subject": "Reset your password",
                 "ReplyTo": { "Email": user.email },
                 "TextPart": render_template('email/reset-password.txt',
-                                         user=user, token=token, type=type),
+                                         user=user, token=token),
                 "HTMLPart": render_template('email/reset-password.html',
-                                         user=user, token=token, type=type)
+                                         user=user, token=token)
             }
         ]
     }
 
     result = mailjet.send.create(data=data)
-    if result.status_code is 200:
+    if result.status_code == 200:
         print(result.json())
     else:
         print("Password reset email failed to send with code " + str(result.status_code), result.reason)
@@ -159,7 +194,7 @@ def send_test_strategies_email(user, relation, student):
     }
 
     result = mailjet.send.create(data=data)
-    if result.status_code is 200:
+    if result.status_code == 200:
         print(result.json())
     else:
         print("Top 10 email failed to send with code " + str(result.status_code), result.reason)
@@ -193,7 +228,7 @@ def send_score_analysis_email(student, school):
     }
 
     result = mailjet.send.create(data=data)
-    if result.status_code is 200:
+    if result.status_code == 200:
         print(result.json())
     else:
         print("Score analysis confirmation email failed to send with code " + result.status_code, result.reason)
@@ -241,7 +276,7 @@ def send_practice_test_email(user, test, relation, student):
     }
 
     result = mailjet.send.create(data=data)
-    if result.status_code is 200:
+    if result.status_code == 200:
         print(result.json())
     else:
         print("Practice test email failed to send with code " + str(result.status_code), result.reason)
@@ -270,13 +305,13 @@ def send_reminder_email(event, student, tutor, quote):
 
     message, author, quote_header = verify_quote(quote)
 
-    if student.timezone is -2:
+    if student.timezone == -2:
         timezone = "Pacific"
-    elif student.timezone is -1:
+    elif student.timezone == -1:
         timezone = "Mountain"
-    elif student.timezone is 0:
+    elif student.timezone == 0:
         timezone = "Central"
-    elif student.timezone is 1:
+    elif student.timezone == 1:
         timezone = "Eastern"
     else:
         timezone = "your"
@@ -321,7 +356,7 @@ def send_reminder_email(event, student, tutor, quote):
 
     result = mailjet.send.create(data=data)
 
-    if result.status_code is 200:
+    if result.status_code == 200:
         print(student.student_name, student.last_name, start_display, timezone)
     else:
         print("Error for " + student.student_name + " with code " + str(result.status_code), result.reason)
@@ -385,7 +420,7 @@ def weekly_report_email(scheduled_session_count, scheduled_hours, scheduled_stud
     }
 
     result = mailjet.send.create(data=data)
-    if result.status_code is 200:
+    if result.status_code == 200:
         print("\nWeekly report email sent.\n")
     else:
         print("\nWeekly report email error:", str(result.status_code), result.reason, "\n")

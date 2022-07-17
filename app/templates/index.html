@@ -14,7 +14,7 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
-          <div id="home-alert" class="row justify-content-center alert {{ category }}">
+          <div class="row justify-content-center flash {{ category }}">
             <div class="col-sm-11 col-md-10 col-lg-9">
               <div role="alert">{{ message }}</div>
             </div>
@@ -39,20 +39,20 @@
     <form id="intro-form" method="post">
       <div id="intro-1" class="row justify-content-center">
         <div class="col-12">
-          <h1 class="home-tagline" class="mt-5">What do you want to create?</h1>
+          <h1 class="headline-text" class="mt-5">What do you want to create?</h1>
         </div>
 
         <div class="col-12 col-sm-8 col-md-6">
           {{ form.hidden_tag() }}
           {{ form.description(class="text-center mb-2") }}
           <p class="small-text mb-1"><i>Ideas are private until you are ready to share.</i></p>
-          <a id="idea-start-button" class="btn inline-block mx-1">Let's grow this</a>
+          <a id="idea-start-button" class="btn inline-block mx-1 disabled">Let's grow this</a>
         </div>
       </div>
 
       <div id="intro-2" class="row justify-content-center">
         <div class="col-12">
-          <h1 class="home-tagline" class="mt-5">Create an account or
+          <h1 class="headline-text" class="mt-5">Create an account or
             <a href="{{ url_for('login') }}">log in</a></h1>
         </div>
 
@@ -66,6 +66,14 @@
             </div>
             <div class="col-12">
               {{ form.email(class="mb-2") }}
+              {{ form.password }}<br>
+              {% for error in form.password.errors %}
+                <span class="form-error">{{ error }}</span>
+              {% endfor %}
+              {{ form.password2 }}<br>
+              {% for error in form.password2.errors %}
+                <span class="form-error">{{ error }}</span>
+              {% endfor %}
             </div>
           </div>
 
@@ -93,7 +101,7 @@
       <div class="row">
         <div class="col-9">
           <a href="#contact">
-            <img id="nav-img" src="{{ url_for('static', filename='img/logo.svg') }}" alt="Open Path Tutoring">
+            <img id="nav-logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="Open Path Tutoring">
           </a>
         </div>
         <div class="col-3">
@@ -146,7 +154,7 @@
     <div class="row justify-content-center">
       <div class="col-11 col-sm-10 col-lg-8">
         <h1 class="mt-4"><strong>Our Mission:</strong></h1>
-        <h1 class="">To help creators and ideas grow and thrive.</h1>
+        <h1 class="">To help the world's creators and creations grow and thrive.</h1>
         <h1 class="mt-5">Header 1</h1>
         <h2>Header 2</h2>
         <h3>Header 3</h3>
@@ -191,6 +199,7 @@
 {% endblock container %}
 
 {% block end_scripts %}
+  {{ super() }}
   <script src="{{ url_for('static', filename='js/zenscroll-min.js') }}"></script>
   <script>
     zenscroll.setup(null, 0);
@@ -212,6 +221,14 @@
     document.getElementById("idea-start-button").addEventListener("click", function() {
       fadeOutIn("intro-1", "intro-2");
     });
+
+    document.getElementById("description").addEventListener("input", function(){
+      if(this.value == "") {
+        document.getElementById("idea-start-button").classList.add("disabled")
+      } else {
+        document.getElementById("idea-start-button").classList.remove("disabled")
+      }
+    })
     
     document.getElementById("idea-back-button").addEventListener("click", function() {
       fadeOutIn("intro-2", "intro-1");

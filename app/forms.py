@@ -47,13 +47,17 @@ class ResetPasswordForm(FlaskForm):
     submit = SubmitField('Reset password')
 
 class IntroForm(FlaskForm):
-    description = TextAreaField('Description', render_kw={'rows':'2'}, validators=[InputRequired()])
+    description = TextAreaField('Description', render_kw={'rows':'3'}, validators=[InputRequired()])
     first_name = StringField('First name', render_kw={'placeholder': 'First name'}, \
         validators=[InputRequired()])
     last_name = StringField('Last name', render_kw={'placeholder': 'Last name'}, \
         validators=[InputRequired()])
     email = EmailField('Email address', render_kw={'placeholder': 'Email address'}, \
         validators=[InputRequired(), Email(message='Please enter a valid email address')])
+    password = PasswordField('Password', render_kw={'placeholder': 'Password'}, \
+         validators=[InputRequired()])
+    password2 = PasswordField('Repeat Password', render_kw={'placeholder': 'Repeat Password'}, \
+         validators=[InputRequired(), EqualTo('password',message='Passwords do not match.')])
     submit = SubmitField('Save')
 
 class InquiryForm(FlaskForm):
@@ -77,17 +81,17 @@ class IdeaForm(FlaskForm):
     submit = SubmitField('Save')
 
 class LovesForm(FlaskForm):
-    loves = TextAreaField('Loves', render_kw={'placeholder': 'Comma-separated values (making art, nature, family, pizza...)', 'rows':'3'}, \
+    loves = TextAreaField('Loves', render_kw={'placeholder':'making art, nature, family, pizza...', 'rows':'3'}, \
         validators=[InputRequired()])
     submit = SubmitField('Save')
 
 class OffersForm(FlaskForm):
-    offers = TextAreaField('Offers', render_kw={'placeholder': 'Comma-separated values (marketing, mentorship, photography...)', 'rows':'3'}, \
+    offers = TextAreaField('Offers', render_kw={'placeholder': 'marketing, mentorship, photography...', 'rows':'3'}, \
         validators=[InputRequired()])
     submit = SubmitField('Save')
 
 class NeedsForm(FlaskForm):
-    needs = TextAreaField('Needs', render_kw={'placeholder': 'Comma-separated values (marketing, mentorship, photography...)', 'rows':'3'}, \
+    needs = TextAreaField('Needs', render_kw={'placeholder': 'marketing, mentorship, photography...', 'rows':'3'}, \
         validators=[InputRequired()])
     submit = SubmitField('Save')
 

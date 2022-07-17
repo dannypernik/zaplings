@@ -1,0 +1,10 @@
+Hi {{ user.first_name }}, we're glad to have you with us!
+
+Please verify that you registered an account with Zaplings by clicking below:
+
+{{ url_for('verify_email', token=token, _external=True) }}
+
+If you did not register an account, please let us know at https://www.zaplings.com/contact.
+
+Our best,
+The Zaplings Team

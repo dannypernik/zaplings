@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
+{% block body_class %}inverse{% endblock body_class %}
+
 {% block container %}
   <div class="row justify-content-center">
     <div class="col-11 col-sm-9 col-lg-6">
-      <h1>Login</h1>
+      <h2 class="headline-text">Login</h2>
       <form id="login-form" action="" method="post">
         {{ form.hidden_tag() }}
         {{ form.email }}
@@ -13,7 +15,7 @@
         </div>
       </form>
       <p class="mt-3 text-center">
-        <a href="{{ url_for('request_password_reset') }}" class="btn sec">Reset password</a>
+        <a href="{{ url_for('request_password_reset') }}" class="btn sec sm">Reset password</a>
       </p>
     </div>
   </div>

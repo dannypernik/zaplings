@@ -8,7 +8,7 @@ from flask_login import current_user, login_user, logout_user, login_required, l
 from app.models import User, Idea
 from werkzeug.urls import url_parse
 from datetime import datetime
-from app.email import send_contact_email, send_password_email, \
+from app.email import send_contact_email, send_verification_email, send_password_reset_email, \
     send_test_strategies_email, send_score_analysis_email, send_practice_test_email
 from functools import wraps
 
@@ -41,26 +41,28 @@ def admin_required(f):
 def index():
     form = IntroForm()
     if current_user.is_authenticated:
-        return redirect(url_for('home', id=current_user.get_id()))
+        return redirect(url_for('home'))
     if form.validate_on_submit():
         username_check = User.query.filter_by(username=form.email.data).first()
         if username_check is not None:
             if username_check.password_hash is None:
-                send_password_email(username_check)
+                send_verification_email(username_check)
                 flash('You need to verify your email before saving more ideas. Please check your inbox.', 'error')
                 return redirect(url_for('login', email=form.email.data))
             flash('An account already exists for ' + form.email.data + '. Please log in.', 'error')
             return redirect(url_for('login', email=form.email.data, idea=form.description.data))
         user = User(first_name=form.first_name.data, last_name=form.last_name.data, \
             email=form.email.data, username=form.email.data)
+        user.set_password(form.password.data)
         db.session.add(user)
         db.session.flush()
         idea = Idea(description=form.description.data, creator_id=user.id)
         db.session.add(idea)
         db.session.commit()
-        send_password_email(user)
-        flash('Welcome to Zaplings! Please check your inbox at ' + user.email + ' to finish setting up your account.')
-        return redirect(url_for('idea', id=idea.id))
+        login_user(user)
+        send_verification_email(user)
+        flash('Welcome to Zaplings! Please check your inbox to verify that ' + user.email + ' is your email address.')
+        return redirect(url_for('loves'))
     return render_template('index.html', form=form, last_updated=dir_last_updated('app/static'))
 
 @app.route('/contact')
@@ -123,20 +125,17 @@ def loves():
     form = LovesForm()
     if form.validate_on_submit():
         current_user.loves = form.loves.data
+        db.session.add(current_user)
+        db.session.commit()
+        flash('Passions updated')
+        if current_user.needs is None:
+            return redirect(url_for('needs'))
+        elif current_user.offers is None:
+            return redirect(url_for('offers'))
+        return redirect(url_for('home'))
     elif request.method == 'GET':
         form.loves.data = current_user.loves
     return render_template('loves.html', form=form)
-
-
-@app.route('/offers', methods=['GET', 'POST'])
-@login_required
-def offers():
-    form = OffersForm()
-    if form.validate_on_submit():
-        current_user.offers = form.offers.data
-    elif request.method == 'GET':
-        form.offers.data = current_user.offers
-    return render_template('offers.html', form=form)
 
 
 @app.route('/needs', methods=['GET', 'POST'])
@@ -145,9 +144,30 @@ def needs():
     form = NeedsForm()
     if form.validate_on_submit():
         current_user.needs = form.needs.data
+        db.session.add(current_user)
+        db.session.commit()
+        flash('Needs updated')
+        if current_user.offers is None:
+            return redirect(url_for('offers'))
+        return redirect(url_for('home'))
     elif request.method == 'GET':
         form.needs.data = current_user.needs
     return render_template('needs.html', form=form)
+
+
+@app.route('/offers', methods=['GET', 'POST'])
+@login_required
+def offers():
+    form = OffersForm()
+    if form.validate_on_submit():
+        current_user.offers = form.offers.data
+        db.session.add(current_user)
+        db.session.commit()
+        flash('Offers updated')
+        return redirect(url_for('home'))
+    elif request.method == 'GET':
+        form.offers.data = current_user.offers
+    return render_template('offers.html', form=form)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -163,10 +183,10 @@ def signup():
             return redirect(url_for('login', email=form.email.data))
         user = User(first_name=form.first_name.data, last_name=form.last_name.data, \
         email=form.email.data)
-        #user.set_password(form.password.data)
+        user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        send_password_email(user)
+        send_verification_email(user)
         flash('Welcome to Zaplings! Please check your inbox at ' + user.email + ' to finish setting up your account.')
         return redirect(url_for('index'))
     return render_template('signup.html', title='Sign up', form=form)
@@ -186,22 +206,37 @@ def login():
             idea = request.args.get('idea')
         else:
             idea = ''
-        if user and user.password_hash is None:
-            send_password_email(user)
-            flash('Please check your inbox at ' + user.email + ' to finish setting up your account.', 'error')
-            return redirect(url_for('login', email=user.email, idea=idea))
         if user is None or not user.check_password(form.password.data):
             flash('Invalid username or password', 'error')
             return redirect(url_for('login', idea=idea))
-        login_user(user, remember=form.remember_me.data)
+        login_user(user)
         next = request.args.get('next')
         if not next or url_parse(next).netloc != '':
             if idea != '':
-                next = url_for('idea', idea=idea, id=user.id)
+                next = url_for('idea', idea=idea)
             else:
-                next = url_for('home', id=user.id)
+                next = url_for('home')
+        if not user.is_verified:
+            send_verification_email(user)
+            flash('Please check your inbox at ' + user.email + ' to verify your account.')
         return redirect(next)
     return render_template('login.html', title="Login", form=form)
+
+
+@app.route('/verify_email/<token>', methods=['GET', 'POST'])
+def verify_email(token):
+    logout_user()
+    user = User.verify_email_token(token)
+    if user:
+        user.is_verified == True
+        db.session.add(user)
+        db.session.commit()
+        flash('Thank you for verifying your account.')
+        login_user(user)
+        return redirect(url_for('home'))
+    else:
+        flash('Your verification token is expired or invalid. Please log in to generate a new token.')
+        return redirect(url_for('login'))
 
 
 @app.route('/request_password_reset', methods=['GET', 'POST'])
@@ -210,7 +245,7 @@ def request_password_reset():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
-            send_password_email(user, 'reset')
+            send_password_reset_email(user)
         flash('Check your email for instructions to reset your password.')
         return redirect(url_for('login'))
     return render_template('request-password-reset.html', title='Reset password', form=form)
@@ -218,7 +253,7 @@ def request_password_reset():
 
 @app.route('/set_password/<token>', methods=['GET', 'POST'])
 def set_password(token):
-    user = User.verify_reset_password_token(token)
+    user = User.verify_email_token(token)
     if not user:
         return redirect(url_for('index'))
     form = ResetPasswordForm()
@@ -227,7 +262,7 @@ def set_password(token):
         db.session.commit()
         login_user(user)
         flash('Your password has been updated successfully.')
-        return redirect(url_for('home', id=user.id))
+        return redirect(url_for('home'))
     return render_template('set-password.html', form=form)
 
 

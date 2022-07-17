@@ -61,112 +61,118 @@
   </head>
   <body>
     {% block body %}
-      <!-- Google Tag Manager (noscript) -->
-      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T7HJRW6"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-      <!-- End Google Tag Manager (noscript) -->
-    {% endblock body %}
-  <div class="content">
-    {% block navbar %}
-      <div class="site-nav">
-        <div class="row justify-content-center">
-          <div class="col-10">
-            <div class="row">
-              <div class="col-9">
+      <div class="body {% block body_class %}{% endblock body_class %}">
+        {% block navbar %}
+          <div class="site-nav">
+            <div class="row justify-content-center">
+              <div class="col-11 col-md-10">
+                <div class="row g-0">
+                  <div class="col-9">
+                    <a href="{{ url_for('index') }}">
+                      <img id="nav-logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="Open Path Tutoring">
+                    </a>
+                  </div>
+                  <div class="col-3">
+                    <a id="menu-btn" href="#" data-drawer-trigger aria-controls="site-menu" aria-expanded="false">
+                      <div id="menu-title">Menu</div>
+                      <img id="menu-icon" src="{{ url_for('static', filename='img/menu.svg') }}" alt="">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="nav-gap"></div>
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <div class="flash-div">
+                {% for category, message in messages %}
+                  <div class="flash {{ category }}" role="alert">{{ message }}</div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endwith %}
+
+          <section class="drawer" id="site-menu" data-drawer-target>
+            <div class="drawer__overlay" data-drawer-close tabindex="-1"></div>
+            <div class="drawer__wrapper">
+              <div class="drawer__header">
+                <div class="drawer__title">
+
+                </div>
+                <button class="drawer__close" data-drawer-close aria-label="Close Drawer"></button>
+              </div>
+              <div class="drawer__content">
                 <a href="{{ url_for('index') }}">
-                  <img id="nav-img" src="{{ url_for('static', filename='img/logo.svg') }}" alt="Open Path Tutoring">
-                </a>
-              </div>
-              <div class="col-3">
-                <a id="menu-btn" href="#" data-drawer-trigger aria-controls="site-menu" aria-expanded="false">
-                  <div id="menu-title" class="d-none d-sm-block">Menu</div>
-                  <img id="menu-icon" src="{{ url_for('static', filename='img/menu.svg') }}" alt="">
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="nav-gap"></div>
-      {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-          {% for category, message in messages %}
-            <div class="alert {{ category }}" role="alert">{{ message }}</div>
-          {% endfor %}
-        {% endif %}
-      {% endwith %}
-      <div class="section-margin"></div>
-
-      <section class="drawer" id="site-menu" data-drawer-target>
-        <div class="drawer__overlay" data-drawer-close tabindex="-1"></div>
-        <div class="drawer__wrapper">
-          <div class="drawer__header">
-            <div class="drawer__title">
-
-            </div>
-            <button class="drawer__close" data-drawer-close aria-label="Close Drawer"></button>
-          </div>
-          <div class="drawer__content">
-            <a href="{{ url_for('index') }}">
-              <div class="menu-link">
-                <p>Home</p>
-              </div>
-            </a>
-            <a href="{{ url_for('about') }}">
-              <div class="menu-link">
-                <p>About</p>
-              </div>
-            </a>
-            <a href="{{ url_for('contact') }}">
-              <div class="menu-link">
-                <p>Contact</p>
-              </div>
-            </a>
-            {% if current_user.is_authenticated %}
-                <a href="{{ url_for('logout') }}">
                   <div class="menu-link">
-                    <p>Log out</p>
+                    <p>Home</p>
                   </div>
                 </a>
-            {% endif %}
+                <a href="{{ url_for('about') }}">
+                  <div class="menu-link">
+                    <p>About</p>
+                  </div>
+                </a>
+                <a href="{{ url_for('contact') }}">
+                  <div class="menu-link">
+                    <p>Contact</p>
+                  </div>
+                </a>
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('logout') }}">
+                      <div class="menu-link">
+                        <p>Log out</p>
+                      </div>
+                    </a>
+                {% endif %}
 
+              </div>
+            </div>
+          </section>
+        {% endblock navbar %}
+
+        {% block container %}
+          <div class="row justify-content-center pt-resp">
+            <div class="col-11 col-sm-10 col-lg-8">
+
+              {% block content %}{% endblock content %}
+
+            </div>
           </div>
-        </div>
-      </section>
-    {% endblock navbar %}
-
-    {% block container %}
-      <div class="row justify-content-center">
-        <div class="col-11 col-sm-10 col-lg-8">
-
-          {% block content %}{% endblock content %}
-
-        </div>
+        {% endblock container %}
       </div>
-    {% endblock container %}
-  </div>
 
-    {% block footer %}
-      <footer class="footer">
-        <div class="row justify-content-center">
-          <div class="col-sm-10">
-            <p class="mb-2 mt-3">
-              <img src="{{ url_for('static', filename='img/phone.svg') }}"/>
-              <a class="ms-2 white" href="tel:+15128087319">(512) 808-7319</a>
-            </p>
-            <p class="mb-2">
-              <img src="{{ url_for('static', filename='img/mail.svg') }}"/>
-              <a class="ms-2 white" href="mailto:hello@openpathtutoring.com">hello@openpathtutoring.com</a>
-            </p>
-            <p class="">
-              <span class="me-3">&copy;</span><script>document.write(new Date().getFullYear())</script>
-              Open Path Tutoring LLC
-            </p>
+      {% block footer %}
+        <footer class="footer">
+          <div class="row justify-content-center">
+            <div class="col-12 col-md-5 col-offset-md-1">
+              <p class="mb-2">
+                <img src="{{ url_for('static', filename='img/mail.svg') }}"/>
+                <a class="ms-2 white" href="mailto:hello@zaplings.com">hello@zaplings.com</a>
+              </p>
+            </div>
+            <div class="col-12 col-md-5 text-md-end">
+              <p class="">
+                <span class="ms-1 me-2 lead"> &copy;</span><script>document.write(new Date().getFullYear())</script>
+                Zaplings, Inc.
+              </p>
+            </div>
           </div>
-        </div>
-      </footer>
-    {% endblock footer %}
+        </footer>
+      {% endblock footer %}
 
-    {% block end_scripts %}{% endblock end_scripts %}
+      {% block end_scripts %}
+        <script>
+          const messages = document.getElementsByClassName('flash');
+          console.log(messages)
+          Array.from(messages).forEach(fadeFlash);
+          function fadeFlash(e) {
+            setTimeout(function(){
+              e.style.opacity = '0';
+            }, 3000);
+          };
+        </script>
+      {% endblock end_scripts %}
+    {% endblock body %}
   </body>
 </html>

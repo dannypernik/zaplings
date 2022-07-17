@@ -1,10 +1,18 @@
-{% extends 'base.html' %}
+{% extends 'base-center.html' %}
 
 {% block content %}
-  <h3>What do you love?</h3>
+  <h2 class="headline-text text-md-start">What do you love?</h2>
   <form method="post" >
     {{ form.hidden_tag() }}
-    {{ form.loves }}
+    {{ form.loves(class="hidden") }}
     {{ form.submit }}
-  </form>
+  </form>  
 {% endblock content %}
+
+{% block end_scripts %}
+  {{ super() }}
+
+  <script>
+    tagLife('loves');
+  </script>
+{% endblock end_scripts %}

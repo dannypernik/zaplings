@@ -1,10 +1,18 @@
-{% extends 'base.html' %}
+{% extends 'base-center.html' %}
 
 {% block content %}
-  <h3>How can others help you create?</h3>
+  <h2 class="headline-text text-md-start">How can we help you create?</h2>
   <form method="post" >
     {{ form.hidden_tag() }}
-    {{ form.needs }}
+    {{ form.needs(class="hidden") }}
     {{ form.submit }}
   </form>
 {% endblock content %}
+
+{% block end_scripts %}
+  {{ super() }}
+
+  <script>
+    tagLife('needs');
+  </script>
+{% endblock end_scripts %}
