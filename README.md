@@ -1,1 +1,1 @@
-# openpathtutoring
+# The idea garden
