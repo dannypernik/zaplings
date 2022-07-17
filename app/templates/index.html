@@ -65,12 +65,12 @@
               {{ form.last_name}}
             </div>
             <div class="col-12">
-              {{ form.email(class="mb-2") }}
+              {{ form.email }}
               {{ form.password }}<br>
               {% for error in form.password.errors %}
                 <span class="form-error">{{ error }}</span>
               {% endfor %}
-              {{ form.password2 }}<br>
+              {{ form.password2(class="mb-2") }}<br>
               {% for error in form.password2.errors %}
                 <span class="form-error">{{ error }}</span>
               {% endfor %}

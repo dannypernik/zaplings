@@ -121,6 +121,11 @@ h6 {
   opacity: 0.5;
 }
 
+::selection {
+  background: #CEE8CA;
+  color: #777;
+}
+
 .row {
   margin-left: 0;
   margin-right: 0;
@@ -289,7 +294,7 @@ a:hover {
   color: $primary-color;
 }
 
-a.white:hover {
+.inverse a:hover {
   color: white;
   text-decoration: underline;
 }
@@ -351,6 +356,7 @@ a.btn {
   background-color: #66a1ef;
   border-color: #66a1ef;
   color: white;
+  text-decoration: none;
 }
 
 .btn.edit {
@@ -583,7 +589,7 @@ button:hover, .btn:hover, input[type="submit"]:hover, .menu-link:hover {
 }
 
 .headline-text {
-  font-weight: 700;
+  font-weight: 600;
   margin-top: 2rem;
 }
 
