@@ -134,7 +134,7 @@ def verify_email(token):
     logout_user()
     user = User.verify_email_token(token)
     if user:
-        user.is_verified == True
+        user.is_verified = True
         db.session.add(user)
         db.session.commit()
         flash('Thank you for verifying your account.')
