@@ -3,7 +3,8 @@ from flask import Flask, render_template, flash, Markup, redirect, url_for, \
     request, send_from_directory, send_file
 from app import app, db, login, hcaptcha
 from app.forms import SignupForm, LoginForm, IntroForm, InquiryForm, IdeaForm, \
-    LovesForm, OffersForm, NeedsForm, UserForm, RequestPasswordResetForm, ResetPasswordForm
+    LovesForm, OffersForm, NeedsForm, UserForm, RequestPasswordResetForm, \
+    ResetPasswordForm
 from flask_login import current_user, login_user, logout_user, login_required, login_url
 from app.models import User, Idea
 from werkzeug.urls import url_parse
@@ -281,7 +282,10 @@ def offers():
 @app.route('/availability')
 @login_required
 def availability():
-    return render_template('availability.html', title="Availability")
+    wkd = ['mondays','tuesdays','wednesdays','thursdays','fridays']
+    wke = ['saturdays', 'sundays']
+    weeks = ['weekdays', 'weekends']
+    return render_template('availability.html', title="Availability", wkd=wkd, wke=wke, weeks=weeks)
 
 
 @app.route('/users', methods=['GET', 'POST'])

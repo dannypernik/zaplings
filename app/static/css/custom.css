@@ -6160,6 +6160,7 @@ input[type=checkbox] + label::before {
   position: absolute;
   left: 0;
   right: 0;
+  top: 3px;
   margin: auto;
   width: 20px;
   height: 20px;
@@ -6173,7 +6174,7 @@ input[type=checkbox]:checked + label::before {
 input[type=checkbox]:checked + label::after {
   content: "";
   position: absolute;
-  top: 4px;
+  top: 7px;
   left: 0;
   right: 0;
   margin: auto;
@@ -6249,8 +6250,9 @@ input[type=radio]:focus + label::before {
 }
 
 select {
-  color: #2a4776;
-  border: 2px solid #2a4776;
+  background-color: transparent;
+  color: white;
+  border: 2px solid #30b732;
   border-radius: 10px;
   padding: 0.5rem 1rem;
 }
@@ -6678,7 +6680,7 @@ button:hover, .btn:hover, input[type=submit]:hover {
 }
 
 .hidden-form, #parent-info, #student-info, #inactive-students,
-#weekday-detail, #weekend-detail {
+#weekdays-detail, #weekends-detail {
   height: 0px;
   transition: height 0.5s ease-out;
   overflow: hidden;
@@ -6691,7 +6693,7 @@ button:hover, .btn:hover, input[type=submit]:hover {
 .toggle-arrow {
   position: absolute;
   bottom: 0.7rem;
-  margin-left: 1.5rem;
+  margin-left: 1rem;
   height: 0;
   width: 0;
   border-top: 8px solid white;
@@ -6707,9 +6709,13 @@ button:hover, .btn:hover, input[type=submit]:hover {
   transition: transform 0.3s ease-in-out;
 }
 
-#weekday-toggle, #weekend-toggle {
+#weekdays-toggle, #weekends-toggle {
   position: relative;
   cursor: pointer;
+}
+
+#weekdays-detail, #weekends-detail {
+  margin-bottom: 1rem;
 }
 
 /*# sourceMappingURL=custom.css.map */
