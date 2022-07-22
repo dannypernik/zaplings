@@ -23,6 +23,10 @@ def dir_last_updated(folder):
                    for root_path, dirs, files in os.walk(folder)
                    for f in files))
 
+@app.context_processor
+def inject_values():
+    return dict(last_updated=dir_last_updated('app/static'))
+
 def admin_required(f):
     @login_required
     @wraps(f)
@@ -63,7 +67,7 @@ def index():
         send_verification_email(user)
         flash('Welcome to Zaplings! Please check your inbox to verify that ' + user.email + ' is your email address.')
         return redirect(url_for('loves'))
-    return render_template('index.html', form=form, last_updated=dir_last_updated('app/static'))
+    return render_template('index.html', form=form)
 
 
 @app.route('/signup', methods=['GET', 'POST'])
