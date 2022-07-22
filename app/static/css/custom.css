@@ -6053,6 +6053,10 @@ h6, .h6 {
   font-size: calc(min(1.5rem + 1vw, 20px));
 }
 
+.body {
+  min-height: calc(100vh - 7rem - calc(min(36px + 2vw, 52px)));
+}
+
 .tagify__tag + .tagify__input::before {
   display: none;
 }
@@ -6155,20 +6159,24 @@ input[type=checkbox] + label::before {
   display: inline-block;
   position: absolute;
   left: 0;
-  margin-right: 10px;
+  right: 0;
+  margin: auto;
   width: 20px;
   height: 20px;
-  border: 2px solid #2a4776;
+  border: 2px solid white;
   border-radius: 3px;
 }
 input[type=checkbox]:checked + label::before {
-  background-color: #2a4776;
+  background-color: #30b732;
+  border-color: #30b732;
 }
 input[type=checkbox]:checked + label::after {
   content: "";
   position: absolute;
   top: 4px;
-  left: 4px;
+  left: 0;
+  right: 0;
+  margin: auto;
   border-left: 3px solid white;
   border-bottom: 3px solid white;
   height: 8px;
@@ -6177,6 +6185,15 @@ input[type=checkbox]:checked + label::after {
 }
 input[type=checkbox]:focus + label::before {
   box-shadow: 0 0px 8px #2a4776;
+}
+
+.table td {
+  text-align: center;
+}
+
+.table input {
+  margin: 0;
+  vertical-align: text-bottom;
 }
 
 input[type=radio] {
@@ -6347,15 +6364,19 @@ a.btn {
   color: white;
 }
 
-button:hover, .btn:hover, input[type=submit]:hover, .menu-link:hover {
+button:hover, .btn:hover, input[type=submit]:hover {
   background-color: #258f27;
   border-color: #258f27;
   color: white;
 }
 
+.drawer__close {
+  background-image: url("data:image/svg+xml,%0A%3Csvg width='15px' height='16px' viewBox='0 0 15 16' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='2.-Menu' transform='translate(-15.000000, -13.000000)' stroke='%23ffffff'%3E%3Cg id='Group' transform='translate(15.000000, 13.521000)'%3E%3Cpath d='M0,0.479000129 L15,14.2971819' id='Path-3'%3E%3C/path%3E%3Cpath d='M0,14.7761821 L15,-1.24344979e-14' id='Path-3'%3E%3C/path%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
 .drawer__close:hover {
   background-color: transparent;
-  outline: none;
+  border-radius: 30px;
 }
 
 .img-fluid {
@@ -6419,14 +6440,14 @@ button:hover, .btn:hover, input[type=submit]:hover, .menu-link:hover {
 
 #nav-logo {
   height: calc(min(36px + 2vw, 52px));
-  margin: 20px 0 10px;
+  margin: 10px 0;
   max-width: 100%;
 }
 
 #menu-btn {
   display: flex;
   justify-content: flex-end;
-  margin-top: 36px;
+  margin-top: 24px;
   color: white;
   text-decoration: none;
 }
@@ -6448,6 +6469,10 @@ button:hover, .btn:hover, input[type=submit]:hover, .menu-link:hover {
   background-color: #2a4776;
 }
 
+.drawer__header {
+  height: 7.6xrem;
+}
+
 .menu-link {
   height: 60px;
   font-size: 1.5rem;
@@ -6460,6 +6485,11 @@ button:hover, .btn:hover, input[type=submit]:hover, .menu-link:hover {
   padding: 1.7rem;
 }
 
+.menu-link:hover {
+  background-color: #258f27;
+  color: white;
+}
+
 .site-nav {
   position: fixed;
   left: 0;
@@ -6470,7 +6500,7 @@ button:hover, .btn:hover, input[type=submit]:hover, .menu-link:hover {
 
 .nav-gap {
   height: calc(min(36px + 2vw, 52px));
-  margin: 20px 0 10px;
+  margin: 10px 0;
   width: 100%;
 }
 
@@ -6647,13 +6677,38 @@ button:hover, .btn:hover, input[type=submit]:hover, .menu-link:hover {
   overflow: hidden;
 }
 
-.hidden-form, #parent-info, #student-info, #inactive-students {
+.hidden-form, #parent-info, #student-info, #inactive-students,
+#weekday-detail, #weekend-detail {
   height: 0px;
   transition: height 0.5s ease-out;
   overflow: hidden;
 }
 
 .slide-toggle {
+  cursor: pointer;
+}
+
+.toggle-arrow {
+  position: absolute;
+  bottom: 0.7rem;
+  margin-left: 1.5rem;
+  height: 0;
+  width: 0;
+  border-top: 8px solid white;
+  opacity: 0.5;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  transform: rotate(0deg);
+  transition: transform 0.3s ease-in-out;
+}
+
+.toggle-arrow.open {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease-in-out;
+}
+
+#weekday-toggle, #weekend-toggle {
+  position: relative;
   cursor: pointer;
 }
 

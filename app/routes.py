@@ -65,6 +65,110 @@ def index():
         return redirect(url_for('loves'))
     return render_template('index.html', form=form, last_updated=dir_last_updated('app/static'))
 
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if current_user.is_authenticated:
+        flash('You are already signed in')
+        return redirect(url_for('index'))
+    form = SignupForm()
+    if form.validate_on_submit():
+        username_check = User.query.filter_by(username=form.email.data).first()
+        if username_check is not None:
+            flash('An account already exists for ' + form.email.data + '. Please log in.', 'error')
+            return redirect(url_for('login', email=form.email.data))
+        user = User(first_name=form.first_name.data, last_name=form.last_name.data, \
+        email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        send_verification_email(user)
+        flash('Welcome to Zaplings! Please check your inbox at ' + user.email + ' to finish setting up your account.')
+        return redirect(url_for('index'))
+    return render_template('signup.html', title='Sign up', form=form)
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        flash('You are already signed in')
+        return redirect(url_for('index'))
+    form = LoginForm()
+    if request.method == 'GET' and 'email' in request.args:
+        form.email.data = request.args.get('email')
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if 'idea' in request.args:
+            idea = request.args.get('idea')
+        else:
+            idea = ''
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password', 'error')
+            return redirect(url_for('login', idea=idea))
+        login_user(user)
+        next = request.args.get('next')
+        if not next or url_parse(next).netloc != '':
+            if idea != '':
+                next = url_for('idea', idea=idea)
+            else:
+                next = url_for('home')
+        if not user.is_verified:
+            send_verification_email(user)
+            flash('Please check your inbox at ' + user.email + ' to verify your account.')
+        return redirect(next)
+    return render_template('login.html', title="Login", form=form)
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+
+@app.route('/verify_email/<token>', methods=['GET', 'POST'])
+def verify_email(token):
+    logout_user()
+    user = User.verify_email_token(token)
+    if user:
+        user.is_verified == True
+        db.session.add(user)
+        db.session.commit()
+        flash('Thank you for verifying your account.')
+        login_user(user)
+        return redirect(url_for('home'))
+    else:
+        flash('Your verification token is expired or invalid. Please log in to generate a new token.')
+        return redirect(url_for('login'))
+
+
+@app.route('/request_password_reset', methods=['GET', 'POST'])
+def request_password_reset():
+    form = RequestPasswordResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            send_password_reset_email(user)
+        flash('Check your email for instructions to reset your password.')
+        return redirect(url_for('login'))
+    return render_template('request-password-reset.html', title='Reset password', form=form)
+
+
+@app.route('/set_password/<token>', methods=['GET', 'POST'])
+def set_password(token):
+    user = User.verify_email_token(token)
+    if not user:
+        flash('Verification has expired or is invalid. Please try again.')
+        return redirect(url_for('request_password_reset'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        login_user(user)
+        flash('Your password has been updated successfully.')
+        return redirect(url_for('home'))
+    return render_template('set-password.html', form=form)
+
+
 @app.route('/contact')
 def contact():
     form = InquiryForm()
@@ -91,7 +195,7 @@ def about():
 @login_required
 def home():
     ideas = Idea.query.filter_by(creator_id=current_user.get_id())
-    return render_template('home.html', title="Home", ideas=ideas)
+    return render_template('home.html', title="Home", ideas=ideas, user=current_user)
 
 
 @app.route('/idea/<int:id>', methods=['GET', 'POST'])
@@ -170,106 +274,10 @@ def offers():
     return render_template('offers.html', form=form)
 
 
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if current_user.is_authenticated:
-        flash('You are already signed in')
-        return redirect(url_for('index'))
-    form = SignupForm()
-    if form.validate_on_submit():
-        username_check = User.query.filter_by(username=form.email.data).first()
-        if username_check is not None:
-            flash('An account already exists for ' + form.email.data + '. Please log in.', 'error')
-            return redirect(url_for('login', email=form.email.data))
-        user = User(first_name=form.first_name.data, last_name=form.last_name.data, \
-        email=form.email.data)
-        user.set_password(form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        send_verification_email(user)
-        flash('Welcome to Zaplings! Please check your inbox at ' + user.email + ' to finish setting up your account.')
-        return redirect(url_for('index'))
-    return render_template('signup.html', title='Sign up', form=form)
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if current_user.is_authenticated:
-        flash('You are already signed in')
-        return redirect(url_for('index'))
-    form = LoginForm()
-    if request.method == 'GET' and 'email' in request.args:
-        form.email.data = request.args.get('email')
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if 'idea' in request.args:
-            idea = request.args.get('idea')
-        else:
-            idea = ''
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password', 'error')
-            return redirect(url_for('login', idea=idea))
-        login_user(user)
-        next = request.args.get('next')
-        if not next or url_parse(next).netloc != '':
-            if idea != '':
-                next = url_for('idea', idea=idea)
-            else:
-                next = url_for('home')
-        if not user.is_verified:
-            send_verification_email(user)
-            flash('Please check your inbox at ' + user.email + ' to verify your account.')
-        return redirect(next)
-    return render_template('login.html', title="Login", form=form)
-
-
-@app.route('/verify_email/<token>', methods=['GET', 'POST'])
-def verify_email(token):
-    logout_user()
-    user = User.verify_email_token(token)
-    if user:
-        user.is_verified == True
-        db.session.add(user)
-        db.session.commit()
-        flash('Thank you for verifying your account.')
-        login_user(user)
-        return redirect(url_for('home'))
-    else:
-        flash('Your verification token is expired or invalid. Please log in to generate a new token.')
-        return redirect(url_for('login'))
-
-
-@app.route('/request_password_reset', methods=['GET', 'POST'])
-def request_password_reset():
-    form = RequestPasswordResetForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user:
-            send_password_reset_email(user)
-        flash('Check your email for instructions to reset your password.')
-        return redirect(url_for('login'))
-    return render_template('request-password-reset.html', title='Reset password', form=form)
-
-
-@app.route('/set_password/<token>', methods=['GET', 'POST'])
-def set_password(token):
-    user = User.verify_email_token(token)
-    if not user:
-        return redirect(url_for('index'))
-    form = ResetPasswordForm()
-    if form.validate_on_submit():
-        user.set_password(form.password.data)
-        db.session.commit()
-        login_user(user)
-        flash('Your password has been updated successfully.')
-        return redirect(url_for('home'))
-    return render_template('set-password.html', form=form)
-
-
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
+@app.route('/availability')
+@login_required
+def availability():
+    return render_template('availability.html', title="Availability")
 
 
 @app.route('/users', methods=['GET', 'POST'])

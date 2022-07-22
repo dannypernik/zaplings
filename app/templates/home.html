@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 
+{% block body_class %}{% endblock body_class %}
+
 {% block content %}
-  <h3>My ideas</h3>
-  {% for i in ideas %}
-    <p>{{ i.name }}</p>
-  {% endfor %}
+  <h3 class="mt-4">{{ user.first_name }} {{ user.last_name }}</h3>
 {% endblock content %}
