@@ -13,34 +13,6 @@
 
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-      <!-- Google Tag Manager -->
-      <script async>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-T7HJRW6');</script>
-      <!-- End Google Tag Manager -->
-
-      <!-- Global site tag (gtag.js) - Google Analytics -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-64JMLPC3H8"></script>
-      <script async>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'G-64JMLPC3H8');
-      </script>
-
-      <!-- Global site tag (gtag.js) - Google Analytics -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-186105291-1"></script>
-      <script async>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-186105291-1');
-      </script>
-
       <!-- favicons -->
       <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/favicons/favicon.svg' ) }}" sizes="any">
       <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/favicons/apple-touch-icon.png') }}">
@@ -59,88 +31,51 @@
       {% endblock scripts %}
     {% endblock head %}
   </head>
-  <body>
+  <body class="{% block body_class %}{% endblock body_class %}">
     {% block body %}
-      <div class="body {% block body_class %}inverse{% endblock body_class %}">
-        {% block navbar %}
-          <div class="site-nav">
-            <div class="row justify-content-center">
-              <div class="col-11 col-md-10">
-                <div class="row g-0">
-                  <div class="col-9">
-                    <a href="{{ url_for('index') }}">
-                      <img id="nav-logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="Open Path Tutoring">
-                    </a>
-                  </div>
-                  <div class="col-3">
-                    <a id="menu-btn" href="#" data-drawer-trigger aria-controls="site-menu" aria-expanded="false">
-                      <div id="menu-title">Menu</div>
-                      <img id="menu-icon" src="{{ url_for('static', filename='img/menu.svg') }}" alt="">
-                    </a>
-                  </div>
+      {% block navbar %}
+        <div class="site-nav">
+          <div class="row justify-content-center">
+            <div class="col-11 col-md-10">
+              <div class="row g-0">
+                <div class="col-9">
+                  <a href="{{ url_for('index') }}">
+                    <img id="nav-logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="Open Path Tutoring">
+                  </a>
+                </div>
+                <div class="col-3">
+                  <a id="menu-btn" href="#" data-drawer-trigger aria-controls="site-menu" aria-expanded="false">
+                    <div id="menu-title">Menu</div>
+                    <img id="menu-icon" src="{{ url_for('static', filename='img/menu.svg') }}" alt="">
+                  </a>
                 </div>
               </div>
             </div>
           </div>
-          <div class="nav-gap"></div>
-          {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-              <div class="flash-div">
-                {% for category, message in messages %}
-                  <div class="flash {{ category }}" role="alert">{{ message }}</div>
-                {% endfor %}
-              </div>
-            {% endif %}
-          {% endwith %}
-
-          <section class="drawer" id="site-menu" data-drawer-target>
-            <div class="drawer__overlay" data-drawer-close tabindex="-1"></div>
-            <div class="drawer__wrapper">
-              <div class="drawer__header">
-                <div class="drawer__title">
-
-                </div>
-                <button class="drawer__close" data-drawer-close aria-label="Close Drawer"></button>
-              </div>
-              <div class="drawer__content">
-                <a href="{{ url_for('index') }}">
-                  <div class="menu-link">
-                    <p>Home</p>
-                  </div>
-                </a>
-                <a href="{{ url_for('about') }}">
-                  <div class="menu-link">
-                    <p>About</p>
-                  </div>
-                </a>
-                <a href="{{ url_for('contact') }}">
-                  <div class="menu-link">
-                    <p>Contact</p>
-                  </div>
-                </a>
-                {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('logout') }}">
-                      <div class="menu-link">
-                        <p>Log out</p>
-                      </div>
-                    </a>
-                {% endif %}
-
-              </div>
+        </div>
+        <div class="nav-gap"></div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flash-div">
+              {% for category, message in messages %}
+                <div class="flash {{ category }}" role="alert">{{ message }}</div>
+              {% endfor %}
             </div>
-          </section>
-        {% endblock navbar %}
+          {% endif %}
+        {% endwith %}
 
-        {% block container %}
-          <div class="row justify-content-center pt-resp">
-            <div class="col-11 col-sm-10 col-lg-8">
+        {% include '_menu-base.html' %}
+      {% endblock navbar %}
 
-              {% block content %}{% endblock content %}
+      {% block container %}
+        <div class="row justify-content-center pt-resp">
+          <div class="col-11 col-sm-10 col-lg-8">
 
-            </div>
+            {% block content %}{% endblock content %}
+
           </div>
-        {% endblock container %}
-      </div>
+        </div>
+      {% endblock container %}
 
       {% block footer %}
         <footer class="footer">

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2 class="headline-text">Grow your idea</h2>
+  <form method="post" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    {{ form.bg_photo }}
+    {{ form.name }}
+    {{ form.tagline }}
+    {{ form.description }}
+    {{ form.primary_color }}
+    {{ form.secondary_color }}
+    {{ form.submit }}
+  </form>
+{% endblock content %}

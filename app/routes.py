@@ -1,17 +1,24 @@
 import os
 from flask import Flask, render_template, flash, Markup, redirect, url_for, \
-    request, send_from_directory, send_file
+    request, send_from_directory, send_file, abort
 from app import app, db, login, hcaptcha
 from app.forms import SignupForm, LoginForm, IntroForm, InquiryForm, IdeaForm, \
     LovesForm, OffersForm, NeedsForm, UserForm, RequestPasswordResetForm, \
-    ResetPasswordForm
+    ResetPasswordForm, ShareForm
 from flask_login import current_user, login_user, logout_user, login_required, login_url
 from app.models import User, Idea
 from werkzeug.urls import url_parse
+from werkzeug.utils import secure_filename
 from datetime import datetime
 from app.email import send_contact_email, send_verification_email, send_password_reset_email, \
     send_test_strategies_email, send_score_analysis_email, send_practice_test_email
 from functools import wraps
+import magic
+
+
+app.config['UPLOAD_EXTENSIONS'] = ['image/png', 'image/jpeg']
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
+app.config['IDEA_IMG_PATH'] = 'app/static/img/ideas'
 
 @app.before_request
 def before_request():
@@ -39,6 +46,13 @@ def admin_required(f):
             logout_user()
             return redirect(login_url('login', next_url=request.url))
     return wrap
+
+def validate_image(file):
+    format = magic.from_buffer(file.read(1024), mime=True)
+    file.stream.seek(0)
+    if not format:
+        return None
+    return format
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -199,34 +213,60 @@ def about():
 @app.route('/home')
 @login_required
 def home():
+    form = ShareForm()
     ideas = Idea.query.filter_by(creator_id=current_user.get_id())
-    return render_template('home.html', title="Home", ideas=ideas, user=current_user)
+    return render_template('home.html', title="Home", form=form, ideas=ideas, \
+        current_user=current_user)
 
 
-@app.route('/idea/<int:id>', methods=['GET', 'POST'])
+@app.route('/create-zapling/<int:id>', methods=['GET', 'POST'])
 @login_required
-def idea(id):
+def create_zapling(id):
     form = IdeaForm()
     idea = Idea.query.get_or_404(id)
-    if form.validate_on_submit():
-        idea.name = form.name.data
-        idea.tagline = form.tagline.data
-        idea.description = form.description.data
-        try:
-            db.session.add(idea)
-            db.session.commit()
-            flash(idea.name + ' updated')
-            return redirect(url_for('home'))
-        except:
-            db.session.rollback()
-            flash(idea.name + ' could not be updated', 'error')
-        return redirect(url_for('home'))
-    elif request.method == 'GET':
-        form.name.data = idea.name
-        form.tagline.data = idea.tagline
-        form.description.data = idea.description
-    return render_template('idea.html', form=form)
+    if current_user.get_id() != str(idea.creator_id):
+        abort(403)
+    else:
+        if form.validate_on_submit():
+            idea.name = form.name.data
+            idea.tagline = form.tagline.data
+            idea.description = form.description.data
+            idea.primary_color = form.primary_color.data
+            idea.secondary_color = form.secondary_color.data
+            uploaded_file = request.files['bg_photo']
+            filename = uploaded_file.filename
+            if filename != '':
+                # file_ext = os.path.splitext(filename)[1]
+                if validate_image(uploaded_file) not in app.config['UPLOAD_EXTENSIONS']:
+                    abort(400)
+                uploaded_file.save(os.path.join(app.config['IDEA_IMG_PATH'], str(id)))
+            try:
+                db.session.add(idea)
+                db.session.commit()
+                flash(idea.name + ' updated')
+                return redirect(url_for('idea', id=idea.id))
+            except:
+                db.session.rollback()
+                flash(idea.name + ' could not be updated', 'error')
+            return redirect(url_for('zapling', id=idea.id))
+        elif request.method == 'GET':
+            form.name.data = idea.name
+            form.tagline.data = idea.tagline
+            form.description.data = idea.description
+            form.primary_color.data = idea.primary_color
+            form.secondary_color.data = idea.secondary_color
+    return render_template('create-zapling.html', form=form)
 
+
+@app.route('/zapling/<int:id>')
+def zapling(id):
+    form = InquiryForm()
+    share_form = ShareForm()
+    idea = Idea.query.get_or_404(id)
+    primary_color = idea.primary_color
+    secondary_color = idea.secondary_color
+    return render_template('zapling.html', title="New zapling", form=form, current_user=current_user,
+        primary_color=primary_color, secondary_color=secondary_color)
 
 @app.route('/loves', methods=['GET', 'POST'])
 @login_required

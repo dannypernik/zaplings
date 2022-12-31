@@ -24,14 +24,22 @@ $nav-img-margin: 10px 0;
 @import "menu.css";
 
 // Sitewide stylings //
+
+:root {
+  --primary-color: #{$primary-color};
+  --secondary-color: #{$secondary-color};
+  --hover-color: #{darken($secondary-color, 15%)};
+}
+
 html {
   height: 100%;
 }
 
 body {
   height: 100%;
+  min-height: calc(100vh - 7rem - #{$nav-img-height});
   font-family: $body-font;
-  color: $primary-color;
+  color: var(--primary-color);
   font-size: $base-font-size;
   display: flex;
   flex-direction:  column;
@@ -52,33 +60,29 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
 }
 
-h1 {
-  font-size: calc(min(2.75rem + 1vw, 44px));
+h1, .h1 {
+  font-size: calc(2.3rem + 1vw);
   margin-bottom: 2rem;
 }
 
-h2 {
-  font-size: calc(min(2.5rem + 1vw, 38px));
+h2, .h2 {
+  font-size: calc(2.2rem + 0.5vw);
 }
 
-h3 {
-  font-size: calc(min(2.25rem + 1vw, 32px));
+h3, .h3 {
+  font-size: calc(2rem + 0.5vw);
 }
 
-h4 {
-  font-size: calc(min(2rem + 1vw, 28px));
+h4, .h4 {
+  font-size: calc(1.8rem + 0.25vw);
 }
 
-h5 {
-  font-size: calc(min(1.75rem + 1vw, 24px));
+h5, .h5 {
+  font-size: calc(1.6rem + 0.25vw);
 }
 
-h6 {
-  font-size:calc(min(1.5rem + 1vw, 20px));
-}
-
-.body {
-  min-height: calc(100vh - 7rem - #{$nav-img-height});
+h6, .h6 {
+  font-size: calc(1.4rem + 0.25vw);
 }
 
 .tagify__tag + .tagify__input::before {
@@ -117,7 +121,7 @@ h6 {
 }
 
 ::placeholder {
-  color: $primary-color;
+  color: #777;
 }
 
 .inverse ::placeholder {
@@ -142,7 +146,7 @@ input, textarea {
   padding: 1rem;
   background-color: transparent;
   border: none; //1px solid #ffffff99;
-  border-bottom: 1px solid $primary-color;
+  border-bottom: 1px solid var(--primary-color);
   border-radius: 7px;
   width: 100%;
   outline: none;
@@ -153,17 +157,17 @@ input, textarea {
   border-bottom: 2px solid white;
 }
 
-input[type="submit"] {
-  display: block;
-  margin: 1.5rem auto;
-  padding: 1rem 2rem;
-  width: auto;
-  background-color: $secondary-color;
-  color: white;
-  border: 2px solid $secondary-color;
-  border-radius: 99px;
-  transition: 0.5s;
-}
+// input[type="submit"] {
+//   display: block;
+//   margin: 1.5rem auto;
+//   padding: 1rem 2rem;
+//   width: auto;
+//   background-color: $secondary-color;
+//   color: white;
+//   border: 2px solid $secondary-color;
+//   border-radius: 99px;
+//   transition: 0.5s;
+// }
 
 input[type='checkbox'] {
   position: absolute;
@@ -213,7 +217,7 @@ input[type='checkbox'] {
   }
 
   &:focus + label::before {
-    box-shadow: 0 0px 8px $primary-color;
+    box-shadow: 0 0px 8px var(--primary-color);
   }
 }
 
@@ -245,7 +249,7 @@ input[type='radio'] {
       width: 2rem;
       height: 2rem;
       background: transparent;
-      border: 2px solid $primary-color;
+      border: 2px solid var(--primary-color);
       border-radius: 50%;
     }
 
@@ -263,13 +267,13 @@ input[type='radio'] {
 
   &:checked {
     + label::after {
-      background: $primary-color;
+      background: var(--primary-color);
     }
   }
 
   &:focus {
     + label::before {
-      box-shadow: 0 0px 8px $primary-color;
+      box-shadow: 0 0px 8px var(--primary-color);
     }
   }
 }
@@ -305,19 +309,19 @@ select {
 a {
   display: inline-block;
   text-decoration: none;
-  color: $primary-color;
+  color: var(--secondary-color);
 }
 
 a:hover {
-  color: $primary-color;
+  color: var(--hover-color);
 }
 
 .inverse a:hover {
   color: white;
-  text-decoration: underline;
+  font-weight: 600;
 }
 
-a:hover h2 {
+a:hover h4 {
   font-weight: 600;
 }
 
@@ -334,15 +338,22 @@ h1 a {
   text-decoration: underline;
 }
 
-button, .btn {
+button, .btn, input[type="submit"] {
   margin: 2rem auto;
   padding: 1rem 2rem;
-  background-color: $secondary-color;
-  border: 1px solid $secondary-color;
-  border-radius: 99px;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
+  border-radius: 3px;
   color: white;
-  transition: 0.5s;
+  transition: all 0.3s;
   font-size: $base-font-size;
+  font-weight: 600;
+}
+
+button:hover, .btn:hover, input[type="submit"]:hover {
+  background-color: var(--hover-color);
+  border-color: var(--hover-color);
+  color: white;
 }
 
 a.btn {
@@ -358,10 +369,14 @@ a.btn {
 }
 
 .btn.sec {
-  color: $primary-color;
-  border-color: $primary-color;
+  color: var(--primary-color);
+  border-color: var(--primary-color);
   background-color: transparent;
   margin: 0;
+}
+
+.inverse .button:hover, .inverse .btn:hover {
+  text-decoration: none;
 }
 
 .inverse .btn.sec {
@@ -371,8 +386,8 @@ a.btn {
 }
 
 .inverse .btn.sec:hover {
-  background-color: #66a1ef;
-  border-color: #66a1ef;
+  background-color: var(--hover-color);
+  border-color: var(--hover-color);
   color: white;
   text-decoration: none;
 }
@@ -400,12 +415,6 @@ a.btn {
 .btn.alert:hover {
   background-color: #d61212;
   border-color: #d61212;
-  color: white;
-}
-
-button:hover, .btn:hover, input[type="submit"]:hover {
-  background-color: $hover-color;
-  border-color: $hover-color;
   color: white;
 }
 
@@ -472,7 +481,7 @@ button:hover, .btn:hover, input[type="submit"]:hover {
   width: 100%;
   bottom: 0;
   padding: 20px;
-  background-color: $primary-color;
+  background-color: var(--primary-color);
   color: white;
   margin-top: 11rem;
 }
@@ -488,7 +497,7 @@ button:hover, .btn:hover, input[type="submit"]:hover {
 #menu-btn {
   display: flex;
   justify-content: flex-end;
-  margin-top: 24px;
+  margin: 20px 0;
   color: white;
   text-decoration: none;
 }
@@ -507,11 +516,11 @@ button:hover, .btn:hover, input[type="submit"]:hover {
 }
 
 .drawer__wrapper {
-  background-color: $primary-color;
+  background-color: var(--primary-color);
 }
 
 .drawer__header {
-  height: 7.6xrem;
+  padding: 2.6rem;
 }
 
 .menu-link {
@@ -527,7 +536,7 @@ button:hover, .btn:hover, input[type="submit"]:hover {
 }
 
 .menu-link:hover {
-  background-color: $hover-color;
+  background-color: var(--hover-color);
   color: white;
 }
 
@@ -535,7 +544,7 @@ button:hover, .btn:hover, input[type="submit"]:hover {
   position: fixed;
   left: 0;
   width: 100%;
-  background-color: $primary-color;
+  background-color: var(--primary-color);
   z-index: 5;
 }
 
@@ -553,7 +562,7 @@ button:hover, .btn:hover, input[type="submit"]:hover {
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  background-color: $primary-color;
+  background-color: var(--primary-color);
   z-index: 100;
 }
 
@@ -564,9 +573,17 @@ button:hover, .btn:hover, input[type="submit"]:hover {
 // #home photo by Ekaterina Bolovtsova on Pexels
 // https://www.pexels.com/@ekaterina-bolovtsova
 
+#home-1 {
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(../img/blur.jpg) center top no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  min-height: 100vh;
+  overflow: auto;
+}
+
 .inverse {
   //background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(../img/student-xl.webp) center top no-repeat;
-  background-color: $primary-color;
+  background-color: var(--primary-color);
   background-attachment: fixed;
   background-size: cover;
   min-height: 100vh;

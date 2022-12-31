@@ -1,6 +1,8 @@
 from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, BooleanField, PasswordField, TextAreaField, \
     SubmitField, IntegerField, RadioField, SelectField
+from flask_wtf.file import FileField
+from werkzeug.utils import secure_filename
 from wtforms.fields.html5 import DateField, EmailField
 from wtforms.validators import ValidationError, InputRequired, DataRequired, \
     Email, EqualTo, Length
@@ -25,7 +27,6 @@ class SignupForm(FlaskForm):
         if user is not None:
             raise ValidationError('This email address has already been registered.')
 
-
 class LoginForm(FlaskForm):
     email = StringField('Email address', render_kw={'placeholder': 'Email address'}, \
         validators=[InputRequired(), Email(message='Please enter a valid email address')])
@@ -47,7 +48,7 @@ class ResetPasswordForm(FlaskForm):
     submit = SubmitField('Reset password')
 
 class IntroForm(FlaskForm):
-    description = TextAreaField('Description', render_kw={'rows':'3'}, validators=[InputRequired()])
+    description = TextAreaField('Description', render_kw={'rows':'3', 'placeholder': 'Test'}, validators=[InputRequired()])
     first_name = StringField('First name', render_kw={'placeholder': 'First name'}, \
         validators=[InputRequired()])
     last_name = StringField('Last name', render_kw={'placeholder': 'Last name'}, \
@@ -78,6 +79,11 @@ class IdeaForm(FlaskForm):
         validators=[InputRequired()])
     description = TextAreaField('Description', render_kw={'placeholder': 'Description', 'rows':'10'}, \
         validators=[InputRequired()])
+    bg_photo = FileField('Background photo')
+    primary_color = StringField('Primary color', render_kw={'placeholder': 'Primary color'}, \
+        default='#2a4776', validators=[InputRequired()])
+    secondary_color = StringField('Primary color', render_kw={'placeholder': 'Primary color'}, \
+        default='#4ad1cc', validators=[InputRequired()])
     submit = SubmitField('Save')
 
 class LovesForm(FlaskForm):
@@ -94,6 +100,11 @@ class NeedsForm(FlaskForm):
     needs = TextAreaField('Needs', render_kw={'placeholder': 'marketing, mentorship, photography...', 'rows':'3'}, \
         validators=[InputRequired()])
     submit = SubmitField('Save')
+
+class ShareForm(FlaskForm):
+    content = TextAreaField('Description', render_kw={'placeholder': 'Share an update on your creation,\nask questions for learning or inspiration,\ntell others what worked for you,\nor express your heart.\nYour words are a creation.\nYour life is a creation.', 'rows':'10'}, \
+        validators=[InputRequired()])
+    submit = SubmitField('Share')
 
 
 def get_tutors():
