@@ -266,8 +266,8 @@ def zapling(id):
     form = InquiryForm()
     share_form = ShareForm()
     idea = Idea.query.get_or_404(id)
-    primary_color = idea.primary_color
-    secondary_color = idea.secondary_color
+    primary_color = idea.primary_color or '#2a4776'
+    secondary_color = idea.secondary_color or '#4ad1cc'
     return render_template('zapling.html', title="New zapling", form=form, current_user=current_user, \
         primary_color=primary_color, secondary_color=secondary_color)
 
