@@ -224,8 +224,9 @@ def home():
 def create_zapling(id):
     form = IdeaForm()
     idea = Idea.query.get_or_404(id)
-    primary_color = idea.primary_color
-    secondary_color = idea.secondary_color
+    print(idea.primary_color)
+    primary_color = idea.primary_color or '#2a4776'
+    secondary_color = idea.secondary_color or '#30b732'
     if current_user.get_id() != str(idea.creator_id):
         abort(403)
     else:
@@ -255,8 +256,8 @@ def create_zapling(id):
             form.name.data = idea.name
             form.tagline.data = idea.tagline
             form.description.data = idea.description
-            form.primary_color.data = idea.primary_color
-            form.secondary_color.data = idea.secondary_color
+            form.primary_color.data = primary_color
+            form.secondary_color.data = secondary_color
     return render_template('create-zapling.html', form=form, \
         primary_color=primary_color, secondary_color=secondary_color)
 
@@ -266,10 +267,14 @@ def zapling(id):
     form = InquiryForm()
     share_form = ShareForm()
     idea = Idea.query.get_or_404(id)
-    primary_color = idea.primary_color or '#2a4776'
-    secondary_color = idea.secondary_color or '#4ad1cc'
+    if idea.primary_color is None:
+        primary_color = '#2a4776'
+        secondary_color = '#4ad1cc'
+    else:
+        primary_color = idea.primary_color
+        secondary_color = idea.secondary_color
     return render_template('zapling.html', title="New zapling", form=form, current_user=current_user, \
-        primary_color=primary_color, secondary_color=secondary_color)
+        idea=idea, primary_color=primary_color, secondary_color=secondary_color)
 
 
 @app.route('/loves', methods=['GET', 'POST'])

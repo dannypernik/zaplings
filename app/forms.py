@@ -78,13 +78,12 @@ class IdeaForm(FlaskForm):
         validators=[InputRequired()])
     tagline = StringField('Tagline', render_kw={'placeholder': 'Tagline'}, \
         validators=[InputRequired()])
-    description = TextAreaField('Description', render_kw={'placeholder': 'Description', 'rows':'10'}, \
-        validators=[InputRequired()])
+    description = TextAreaField('Description', render_kw={'placeholder': 'Description', 'rows':'10'})
     bg_photo = FileField('Background photo')
     primary_color = StringField('Primary color', render_kw={'placeholder': 'Primary color'}, \
-        widget=ColorInput(), default='#2a4776', validators=[InputRequired()])
+        widget=ColorInput(), validators=[InputRequired()])
     secondary_color = StringField('Secondary color', render_kw={'placeholder': 'Secondary color'}, \
-        widget=ColorInput(), default='#4ad1cc', validators=[InputRequired()])
+        widget=ColorInput(), validators=[InputRequired()])
     submit = SubmitField('Save')
 
 class LovesForm(FlaskForm):

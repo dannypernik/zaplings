@@ -1,5 +1,5 @@
 <script>
-  var primaryColor = '{{ primary_color }}'
-  var secondaryColor = '{{ secondary_color }}'
+  var primaryColor = '{{ primary_color }}' ?? '#eee'
+  var secondaryColor = '{{ secondary_color }}' ?? '#eee'
 </script>
 <script src="{{ url_for('static', filename='js/customColors.js') }}"></script>
