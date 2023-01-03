@@ -1,15 +1,38 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2 class="headline-text">Grow your idea</h2>
+  <h2 >Grow your idea</h2>
   <form method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
     {{ form.bg_photo }}
     {{ form.name }}
     {{ form.tagline }}
     {{ form.description }}
-    {{ form.primary_color }}
-    {{ form.secondary_color }}
+    <div>
+      {{ form.primary_color.label }}
+      {{ form.primary_color() }}
+    </div>
+    <div>
+      {{ form.secondary_color.label }}
+      {{ form.secondary_color() }}
+    </div>
+    
     {{ form.submit }}
   </form>
 {% endblock content %}
+
+{% block end_scripts %}
+  {% include '_colorize.html' %}
+
+  <script>
+    document.getElementById('primary_color').addEventListener('change', function(){
+      root.style.setProperty('--primary-color', this.value );
+    });
+    
+    document.getElementById('secondary_color').addEventListener('change', function(){
+      root.style.setProperty('--secondary-color', this.value );
+      var hoverFilter = getContrastYIQ(this.value)
+      root.style.setProperty('--hover-filter', hoverFilter );
+    });
+  </script>
+{% endblock end_scripts %}

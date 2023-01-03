@@ -224,6 +224,8 @@ def home():
 def create_zapling(id):
     form = IdeaForm()
     idea = Idea.query.get_or_404(id)
+    primary_color = idea.primary_color
+    secondary_color = idea.secondary_color
     if current_user.get_id() != str(idea.creator_id):
         abort(403)
     else:
@@ -244,7 +246,7 @@ def create_zapling(id):
                 db.session.add(idea)
                 db.session.commit()
                 flash(idea.name + ' updated')
-                return redirect(url_for('idea', id=idea.id))
+                return redirect(url_for('zapling', id=idea.id))
             except:
                 db.session.rollback()
                 flash(idea.name + ' could not be updated', 'error')
@@ -255,7 +257,8 @@ def create_zapling(id):
             form.description.data = idea.description
             form.primary_color.data = idea.primary_color
             form.secondary_color.data = idea.secondary_color
-    return render_template('create-zapling.html', form=form)
+    return render_template('create-zapling.html', form=form, \
+        primary_color=primary_color, secondary_color=secondary_color)
 
 
 @app.route('/zapling/<int:id>')
@@ -265,8 +268,9 @@ def zapling(id):
     idea = Idea.query.get_or_404(id)
     primary_color = idea.primary_color
     secondary_color = idea.secondary_color
-    return render_template('zapling.html', title="New zapling", form=form, current_user=current_user,
+    return render_template('zapling.html', title="New zapling", form=form, current_user=current_user, \
         primary_color=primary_color, secondary_color=secondary_color)
+
 
 @app.route('/loves', methods=['GET', 'POST'])
 @login_required

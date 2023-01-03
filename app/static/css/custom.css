@@ -5201,7 +5201,7 @@ progress {
 :root {
   --primary-color: #2a4776;
   --secondary-color: #30b732;
-  --hover-color: #207a21;
+  --hover-filter: brightness(1.1) ;
 }
 
 html {
@@ -5210,7 +5210,7 @@ html {
 
 body {
   height: 100%;
-  min-height: calc(100vh - 7rem - min(36px + 2vw, 52px));
+  min-height: calc(100vh - 7rem - 40px);
   font-family: "Montserrat", "Helvetica", sans-serif;
   color: var(--primary-color);
   font-size: 1.8rem;
@@ -5425,6 +5425,12 @@ input[type=radio]:focus + label::before {
   box-shadow: 0 0px 8px var(--primary-color);
 }
 
+input[type=color] {
+  height: 30px;
+  padding: 5px;
+  width: 40px;
+}
+
 .radio-wrapper {
   display: inline-block;
   padding-left: 1.5rem;
@@ -5455,17 +5461,20 @@ select {
 
 a {
   display: inline-block;
-  text-decoration: none;
-  color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 a:hover {
-  color: var(--hover-color);
+  color: var(--secondary-color);
 }
 
 .inverse a:hover {
   color: white;
   font-weight: 600;
+}
+
+.home-next a {
+  text-decoration: none;
 }
 
 a:hover h4, a:hover .h4 {
@@ -5498,8 +5507,7 @@ button, .btn, input[type=submit] {
 }
 
 button:hover, .btn:hover, input[type=submit]:hover {
-  background-color: var(--hover-color);
-  border-color: var(--hover-color);
+  filter: var(--hover-filter);
   color: white;
 }
 
@@ -5515,15 +5523,15 @@ a.btn {
   padding: 0.5rem 2rem;
 }
 
+.inverse .button:hover, .inverse .btn:hover {
+  text-decoration: none;
+}
+
 .btn.sec {
   color: var(--primary-color);
   border-color: var(--primary-color);
   background-color: transparent;
   margin: 0;
-}
-
-.inverse .button:hover, .inverse .btn:hover {
-  text-decoration: none;
 }
 
 .inverse .btn.sec {
@@ -5532,11 +5540,15 @@ a.btn {
   color: white;
 }
 
-.inverse .btn.sec:hover {
-  background-color: var(--hover-color);
-  border-color: var(--hover-color);
+.btn.sec:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
   color: white;
-  text-decoration: none;
+}
+
+.inverse .btn.sec:hover {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
 }
 
 .btn.edit {
@@ -5615,12 +5627,12 @@ a.btn {
   white-space: nowrap;
 }
 
-.pt-resp {
-  padding-top: calc(2rem + 1vw);
-}
-
 #contact {
   position: relative;
+}
+
+.content {
+  flex: 1 0 auto;
 }
 
 .footer {
@@ -5634,7 +5646,7 @@ a.btn {
 }
 
 #nav-logo {
-  height: min(36px + 2vw, 52px);
+  height: 40px;
   margin: 10px 0;
   max-width: 100%;
 }
@@ -5642,7 +5654,7 @@ a.btn {
 #menu-btn {
   display: flex;
   justify-content: flex-end;
-  margin: 20px 0;
+  margin: 16.5px 0;
   color: white;
   text-decoration: none;
 }
@@ -5665,7 +5677,7 @@ a.btn {
 }
 
 .drawer__header {
-  padding: 2.6rem;
+  padding: 22.5px;
 }
 
 .menu-link {
@@ -5681,7 +5693,7 @@ a.btn {
 }
 
 .menu-link:hover {
-  background-color: var(--hover-color);
+  background-color: var(--secondary-color);
   color: white;
 }
 
@@ -5694,9 +5706,13 @@ a.btn {
 }
 
 .nav-gap {
-  height: min(36px + 2vw, 52px);
+  height: 40px;
   margin: 10px 0;
   width: 100%;
+}
+
+.section-margin {
+  padding-top: calc(4rem + 2vw);
 }
 
 #free-trial {
@@ -5766,11 +5782,6 @@ a.btn {
   font-family: "Montserrat Alternates", sans-serif;
   font-size: calc(1.8rem + 3vw);
   font-weight: 400;
-}
-
-.headline-text {
-  font-weight: 600;
-  margin-top: 2rem;
 }
 
 .grecaptcha-badge {

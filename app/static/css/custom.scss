@@ -10,8 +10,8 @@ $secondary-color: #30b732;
 $hover-color: darken($secondary-color, 10%);
 $grey: #999;
 $body-font: 'Montserrat', 'Helvetica', sans-serif;
-$nav-img-height: calc(min(36px + 2vw, 52px));
-$nav-img-margin: 10px 0;
+$nav-img-height: 40px;
+$nav-img-margin: 10px;
 
 @import "../scss/bootstrap-reboot.scss";
 @import "bootstrap/bootstrap-grid.min.css";
@@ -28,7 +28,7 @@ $nav-img-margin: 10px 0;
 :root {
   --primary-color: #{$primary-color};
   --secondary-color: #{$secondary-color};
-  --hover-color: #{darken($secondary-color, 15%)};
+  --hover-filter: brightness(1.1)
 }
 
 html {
@@ -278,6 +278,12 @@ input[type='radio'] {
   }
 }
 
+input[type='color'] {
+  height: 30px;
+  padding: 5px;
+  width: 40px;
+}
+
 .radio-wrapper {
   display: inline-block;
   padding-left: 1.5rem;
@@ -308,17 +314,20 @@ select {
 
 a {
   display: inline-block;
-  text-decoration: none;
-  color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 a:hover {
-  color: var(--hover-color);
+  color: var(--secondary-color);
 }
 
 .inverse a:hover {
   color: white;
   font-weight: 600;
+}
+
+.home-next a {
+  text-decoration: none;
 }
 
 a:hover h4 {
@@ -351,8 +360,7 @@ button, .btn, input[type="submit"] {
 }
 
 button:hover, .btn:hover, input[type="submit"]:hover {
-  background-color: var(--hover-color);
-  border-color: var(--hover-color);
+  filter: var(--hover-filter);
   color: white;
 }
 
@@ -368,15 +376,15 @@ a.btn {
   padding: 0.5rem 2rem;
 }
 
+.inverse .button:hover, .inverse .btn:hover {
+  text-decoration: none;
+}
+
 .btn.sec {
   color: var(--primary-color);
   border-color: var(--primary-color);
   background-color: transparent;
   margin: 0;
-}
-
-.inverse .button:hover, .inverse .btn:hover {
-  text-decoration: none;
 }
 
 .inverse .btn.sec {
@@ -385,11 +393,15 @@ a.btn {
   color: white;
 }
 
-.inverse .btn.sec:hover {
-  background-color: var(--hover-color);
-  border-color: var(--hover-color);
+.btn.sec:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
   color: white;
-  text-decoration: none;
+}
+
+.inverse .btn.sec:hover {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
 }
 
 .btn.edit {
@@ -468,12 +480,12 @@ a.btn {
   white-space: nowrap;
 }
 
-.pt-resp {
-  padding-top: calc(2rem + 1vw);
-}
-
 #contact {
   position: relative;
+}
+
+.content {
+  flex: 1 0 auto;
 }
 
 .footer {
@@ -490,14 +502,14 @@ a.btn {
 
 #nav-logo {
   height: $nav-img-height;
-  margin: $nav-img-margin;
+  margin: $nav-img-margin 0;
   max-width: 100%;
 }
 
 #menu-btn {
   display: flex;
   justify-content: flex-end;
-  margin: 20px 0;
+  margin: calc((2 * $nav-img-margin + $nav-img-height - 27px)/2) 0;
   color: white;
   text-decoration: none;
 }
@@ -520,7 +532,7 @@ a.btn {
 }
 
 .drawer__header {
-  padding: 2.6rem;
+  padding: calc((2 * $nav-img-margin + $nav-img-height - 15px) / 2);
 }
 
 .menu-link {
@@ -536,7 +548,7 @@ a.btn {
 }
 
 .menu-link:hover {
-  background-color: var(--hover-color);
+  background-color: var(--secondary-color);
   color: white;
 }
 
@@ -550,8 +562,12 @@ a.btn {
 
 .nav-gap {
   height: $nav-img-height;
-  margin: $nav-img-margin;
+  margin: $nav-img-margin 0;
   width: 100%;
+}
+
+.section-margin {
+  padding-top: calc(4rem + 2vw);
 }
 
 #free-trial {
@@ -634,11 +650,6 @@ a.btn {
   font-family: "Montserrat Alternates", sans-serif;
   font-size: calc(1.8rem + 3vw);
   font-weight: 400;
-}
-
-.headline-text {
-  font-weight: 600;
-  margin-top: 2rem;
 }
 
 .grecaptcha-badge {

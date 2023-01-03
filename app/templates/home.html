@@ -3,11 +3,8 @@
 {% block body_class %}{% endblock body_class %}
 
 {% block content %}
-  <h3 class="mt-4">{{ current_user.first_name }} {{ current_user.last_name }}</h3>
-  <a href="" class="btn">
-    Share
-  </a>
-<form method="post" >
+  <h3>{{ current_user.first_name }} {{ current_user.last_name }}</h3>
+<!-- <form method="post" >
   
 
   <div id="share-div" class="row mt-4">
@@ -18,5 +15,5 @@
       {{ form.submit }}
     </div>
   </div>
-</form>
+</form> -->
 {% endblock content %}

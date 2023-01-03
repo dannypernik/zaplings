@@ -3,19 +3,7 @@
 {% block scripts %}
   {{ super() }}
   
-  <script>
-    let root = document.documentElement;
-    root.style.setProperty('--primary-color', '{{ primary_color }}' );
-    root.style.setProperty('--secondary-color', '{{ secondary_color }}' );
-
-    function adjust(color, amount) {
-      return '#' + color.replace(/^#/, '').replace(/../g, color =>
-        ('0' + Math.min(255, Math.max(0, parseInt(color, 16) + amount)).toString(16)).substr(-2));
-    };
-
-    var hoverColor = adjust('{{ secondary_color }}', -20);
-    root.style.setProperty('--hover-color', hoverColor);
-  </script>
+  
 {% endblock scripts %}
 
 {% block navbar %}{% endblock navbar %}
@@ -166,6 +154,8 @@
 {% endblock container %}
 
 {% block end_scripts %}
+  {% include '_colorize.html' %}
+
   <script src="{{ url_for('static', filename='js/zenscroll-min.js') }}"></script>
   <script>
     zenscroll.setup(null, 0);

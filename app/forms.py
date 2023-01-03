@@ -4,6 +4,7 @@ from wtforms import StringField, BooleanField, PasswordField, TextAreaField, \
 from flask_wtf.file import FileField
 from werkzeug.utils import secure_filename
 from wtforms.fields.html5 import DateField, EmailField
+from wtforms.widgets.html5 import ColorInput
 from wtforms.validators import ValidationError, InputRequired, DataRequired, \
     Email, EqualTo, Length
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
@@ -81,9 +82,9 @@ class IdeaForm(FlaskForm):
         validators=[InputRequired()])
     bg_photo = FileField('Background photo')
     primary_color = StringField('Primary color', render_kw={'placeholder': 'Primary color'}, \
-        default='#2a4776', validators=[InputRequired()])
-    secondary_color = StringField('Primary color', render_kw={'placeholder': 'Primary color'}, \
-        default='#4ad1cc', validators=[InputRequired()])
+        widget=ColorInput(), default='#2a4776', validators=[InputRequired()])
+    secondary_color = StringField('Secondary color', render_kw={'placeholder': 'Secondary color'}, \
+        widget=ColorInput(), default='#4ad1cc', validators=[InputRequired()])
     submit = SubmitField('Save')
 
 class LovesForm(FlaskForm):

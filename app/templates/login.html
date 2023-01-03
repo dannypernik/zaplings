@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block body_class %}inverse{% endblock body_class %}
+{% block body_class %}{% endblock body_class %}
 
 {% block container %}
   <div class="row justify-content-center">
     <div class="col-11 col-sm-9 col-lg-6">
-      <h2 class="headline-text">Welcome back</h2>
+      <h2 >Welcome back</h2>
       <form id="login-form" action="" method="post">
         {{ form.hidden_tag() }}
         {{ form.email }}
