@@ -52,6 +52,7 @@ class Idea(db.Model):
     name = db.Column(db.String(64), index=True)
     tagline = db.Column(db.String(256))
     description = db.Column(db.String(1024))
+    logo = db.Column(db.String(64))
     status = db.Column(db.String(24), default = "active")
     creator_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     primary_color = db.Column(db.String(24))

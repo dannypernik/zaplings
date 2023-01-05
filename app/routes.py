@@ -18,7 +18,8 @@ import magic
 
 app.config['UPLOAD_EXTENSIONS'] = ['image/png', 'image/jpeg']
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
-app.config['IDEA_IMG_PATH'] = 'app/static/img/ideas'
+app.config['STATIC_PATH'] = 'app/static'
+app.config['IDEA_IMG_PATH'] = 'img/ideas'
 
 @app.before_request
 def before_request():
@@ -224,7 +225,6 @@ def home():
 def create_zapling(id):
     form = IdeaForm()
     idea = Idea.query.get_or_404(id)
-    print(idea.primary_color)
     primary_color = idea.primary_color or '#2a4776'
     secondary_color = idea.secondary_color or '#30b732'
     if current_user.get_id() != str(idea.creator_id):
@@ -236,13 +236,15 @@ def create_zapling(id):
             idea.description = form.description.data
             idea.primary_color = form.primary_color.data
             idea.secondary_color = form.secondary_color.data
-            uploaded_file = request.files['bg_photo']
+            uploaded_file = request.files['logo']
             filename = uploaded_file.filename
             if filename != '':
-                # file_ext = os.path.splitext(filename)[1]
+                file_ext = os.path.splitext(filename)[1]
                 if validate_image(uploaded_file) not in app.config['UPLOAD_EXTENSIONS']:
-                    abort(400)
-                uploaded_file.save(os.path.join(app.config['IDEA_IMG_PATH'], str(id)))
+                    flash('Logo must be a PNG or JPEG image')
+                    return redirect(url_for('create_zapling', id=idea.id))
+                idea.logo = os.path.join(app.config['IDEA_IMG_PATH'], 'logo', str(id) + file_ext )
+                uploaded_file.save(os.path.join(app.config['STATIC_PATH'], idea.logo))
             try:
                 db.session.add(idea)
                 db.session.commit()
@@ -251,11 +253,12 @@ def create_zapling(id):
             except:
                 db.session.rollback()
                 flash(idea.name + ' could not be updated', 'error')
-            return redirect(url_for('zapling', id=idea.id))
+                return redirect(url_for('create_zapling', id=idea.id))
         elif request.method == 'GET':
             form.name.data = idea.name
             form.tagline.data = idea.tagline
             form.description.data = idea.description
+            form.logo.data = idea.logo
             form.primary_color.data = primary_color
             form.secondary_color.data = secondary_color
     return render_template('create-zapling.html', form=form, \

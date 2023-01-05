@@ -4,7 +4,8 @@
   <h2 >Grow your idea</h2>
   <form method="post" enctype="multipart/form-data">
     {{ form.hidden_tag() }}
-    {{ form.bg_photo }}
+    {{ form.logo.label }}
+    {{ form.logo }}
     {{ form.name }}
     {{ form.tagline }}
     {{ form.description }}

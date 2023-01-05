@@ -49,7 +49,7 @@ class ResetPasswordForm(FlaskForm):
     submit = SubmitField('Reset password')
 
 class IntroForm(FlaskForm):
-    description = TextAreaField('Description', render_kw={'rows':'3', 'placeholder': 'Test'}, validators=[InputRequired()])
+    description = TextAreaField('Description', validators=[InputRequired()])
     first_name = StringField('First name', render_kw={'placeholder': 'First name'}, \
         validators=[InputRequired()])
     last_name = StringField('Last name', render_kw={'placeholder': 'Last name'}, \
@@ -79,7 +79,7 @@ class IdeaForm(FlaskForm):
     tagline = StringField('Tagline', render_kw={'placeholder': 'Tagline'}, \
         validators=[InputRequired()])
     description = TextAreaField('Description', render_kw={'placeholder': 'Description', 'rows':'10'})
-    bg_photo = FileField('Background photo')
+    logo = FileField('Logo')
     primary_color = StringField('Primary color', render_kw={'placeholder': 'Primary color'}, \
         widget=ColorInput(), validators=[InputRequired()])
     secondary_color = StringField('Secondary color', render_kw={'placeholder': 'Secondary color'}, \

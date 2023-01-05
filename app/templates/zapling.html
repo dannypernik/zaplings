@@ -1,11 +1,5 @@
 {% extends "base.html" %}
 
-{% block scripts %}
-  {{ super() }}
-  
-  
-{% endblock scripts %}
-
 {% block navbar %}{% endblock navbar %}
 
 {% block container %}
@@ -36,9 +30,12 @@
   
       <div class="row justify-content-center">
         <div class="col-11 col-sm-12">
-          <img id="home-logo" class="img-fluid"
-            src="{{ url_for('static', filename='img/logo-white.svg') }}" alt="">
-          <h1 id="home-title">{{ idea.name }}</h1>
+          {% if idea.logo %}
+            <img id="home-logo" class="img-fluid"
+            src="{{ url_for('static', filename=idea.logo) }}" alt="">
+          {% else %}
+            <h1 id="home-title">{{ idea.name }}</h1>
+          {% endif %}
           <h1 id="home-tagline">{{ idea.tagline }}</h1>
         </div>
       </div>
@@ -68,7 +65,12 @@
         <div class="row">
           <div class="col-9">
             <a href="#contact">
-              <img id="nav-img" src="{{ url_for('static', filename='img/logo-white.svg') }}">
+              {% if idea.logo %}
+                <img id="nav-logo" class="img-fluid"
+                src="{{ url_for('static', filename=idea.logo) }}" alt="">
+              {% else %}
+                <h4>{{ idea.name }}</h4>
+              {% endif %}
             </a>
           </div>
           <div class="col-3">

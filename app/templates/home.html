@@ -4,16 +4,8 @@
 
 {% block content %}
   <h3>{{ current_user.first_name }} {{ current_user.last_name }}</h3>
-<!-- <form method="post" >
-  
-
-  <div id="share-div" class="row mt-4">
-    <div class="col">
-      <h5>This is a creation space.</h5>
-      {{ form.hidden_tag() }}
-      {{ form.content }}
-      {{ form.submit }}
-    </div>
-  </div>
-</form> -->
+  <h4>My ideas</h4>
+  {% for i in ideas %}
+    <a href="{{ url_for('zapling', id=i.id) }}" class="btn sm sec">{{ i.name }}</a>
+  {% endfor %}
 {% endblock content %}
